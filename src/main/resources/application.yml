@@ -1,0 +1,25 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /mindzoneitsolutions
+
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+  application:
+    name: Mind Zone IT Solutions
+    format:
+      date-time: iso
+  jpa:
+    show-sql: true
+    database: POSTGRESQL
+    hibernate:
+      ddl-auto: create
+      #ddl-auto: update
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5433/postgres
+    username: postgres
+    password: admin
+    driverClassName: org.postgresql.Driver
