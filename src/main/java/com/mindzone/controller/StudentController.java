@@ -2,6 +2,7 @@ package com.mindzone.controller;
 
 import com.mindzone.dto.StudentRequestDto;
 import com.mindzone.dto.StudentResponseDto;
+import com.mindzone.dto.StudentFeedBackDto;
 import com.mindzone.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,16 @@ public class StudentController {
     return service.create(studentRequestDto);
     }
 
+    @RequestMapping(value = "/addFeedBack", method = RequestMethod.POST)
+    public @ResponseBody String  addFeedBack( @RequestBody StudentFeedBackDto sdto){
+       return service.addFeedBack(sdto.getStudentId(), sdto.getStudentName(), sdto.getNoOfWorksheets(), sdto.getComments(), sdto.getWorksheetsType(),sdto.getTeacherName());
+    }
+
+    @GetMapping(path ="/listFeedBack")
+    public @ResponseBody List<StudentFeedBackDto> getFeedback(){
+        return service.getFeedBacks();
+    }
+
     @PutMapping
     public @ResponseBody StudentResponseDto update(@RequestBody StudentRequestDto studentRequestDto){
         return service.update(studentRequestDto);
@@ -38,6 +49,9 @@ public class StudentController {
     public @ResponseBody List<StudentResponseDto> get(){
         return service.getAll();
     }
+
+
+
     @DeleteMapping(path ="/{studentId}")
     public void delete(@PathVariable long studentId){
          service.delete(studentId);

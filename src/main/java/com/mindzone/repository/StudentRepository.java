@@ -10,4 +10,5 @@ public interface StudentRepository extends JpaRepository<Students, UUID> {
 
     Optional<Students> findByStudentId(Long studentId);
     Students findTopByOrderByStudentIdDesc();
+
 }

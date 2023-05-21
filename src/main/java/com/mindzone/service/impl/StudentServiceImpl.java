@@ -1,10 +1,14 @@
 package com.mindzone.service.impl;
 
+import com.mindzone.dto.StudentFeedBackDto;
 import com.mindzone.dto.StudentRequestDto;
 import com.mindzone.dto.StudentResponseDto;
 import com.mindzone.entity.Students;
+import com.mindzone.entity.StudentFeedBack;
 import com.mindzone.exception.UserNotFoundException;
+import com.mindzone.mapper.StudentFeedBackMapper;
 import com.mindzone.mapper.StudentMapper;
+import com.mindzone.repository.FeedbackRepository;
 import com.mindzone.repository.StudentRepository;
 import com.mindzone.service.StudentService;
 import com.mindzone.utils.MZUtils;
@@ -13,6 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +35,13 @@ public class StudentServiceImpl implements StudentService {
     private StudentRepository repository;
 
     @Autowired
+    private FeedbackRepository feedbackRepository;
+
+    @Autowired
     private StudentMapper studentMapper;
+
+    @Autowired
+    private StudentFeedBackMapper studentFeedBackMapper;
 
     @Autowired
     private MZUtils mzUtils;
@@ -43,6 +58,8 @@ public class StudentServiceImpl implements StudentService {
         Students savedStudent = repository.save(student);
         return studentMapper.toDto(savedStudent);
     }
+
+
 
     @Override
     public StudentResponseDto update(StudentRequestDto studentRequestDto) {
@@ -93,4 +110,29 @@ public class StudentServiceImpl implements StudentService {
         return students.stream().map(student -> studentMapper.toDto(student)).collect(Collectors.toList());
     }
 
+    @Override
+    public List<StudentFeedBackDto> getFeedBacks() {
+        List<StudentFeedBack> studentFeedBacks = feedbackRepository.findAll(Sort.by(Sort.Direction.ASC,"studentId"));
+        return studentFeedBacks.stream().map(ws -> studentFeedBackMapper.toDto(ws)).collect(Collectors.toList());
+    }
+
+    @Override
+    public String addFeedBack(String studentID,String sName,String noOfWorksheet,String comments,String worksheetType,String teacherName){
+      try {
+          StudentFeedBack studentFeedBack = new StudentFeedBack();
+          //  studentFeedBack.setStudentId(Long.parseLong(studentID));
+          studentFeedBack.setStudentName(sName);
+          studentFeedBack.setComments(comments);
+          studentFeedBack.setNoOfWorksheets(Integer.parseInt(noOfWorksheet));
+          studentFeedBack.setTeacherName(teacherName);
+          studentFeedBack.setWorksheetsType(worksheetType);
+          long millis = System.currentTimeMillis();
+          java.sql.Date date = new java.sql.Date(millis);
+          studentFeedBack.setInsertDate(date);
+          feedbackRepository.save(studentFeedBack);
+      } catch (Exception e){
+          return e.toString();
+      }
+          return "success";
+    }
 }
