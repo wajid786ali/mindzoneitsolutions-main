@@ -114,6 +114,8 @@ public class StudentServiceImpl implements StudentService {
         return studentMapper.toDto(user);
     }
 
+
+
     @Override
     public List<StudentResponseDto> getAll() {
         List<Students> students = repository.findAll(Sort.by(Sort.Direction.ASC,"studentId"));
@@ -132,6 +134,21 @@ public class StudentServiceImpl implements StudentService {
         return studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
 
     }
+
+    @Override
+    public List<WorksheetsDto> getStudentWorksheet(long studentId){
+        List<Worksheets> studentWorksheets= worksheetsRepository.findByStudentId(studentId);
+        return studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
+
+    }
+
+    @Override
+    public List<WorksheetsDto> getStudentWorksheet(String month){
+        List<Worksheets> studentWorksheets= worksheetsRepository.findByMonth(month);
+        return studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
+
+    }
+
     @Override
     public String addWorksheet(WorksheetsDto sdto) {
         try {

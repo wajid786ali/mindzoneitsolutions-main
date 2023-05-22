@@ -26,4 +26,7 @@ public interface StudentService {
     String addWorksheet(WorksheetsDto sdto);
 
     List<WorksheetsDto> getListWorksheet();
+
+    public List<WorksheetsDto> getStudentWorksheet(long studentId);
+    public List<WorksheetsDto> getStudentWorksheet(String month);
 }

@@ -47,6 +47,20 @@ public class StudentController {
         return service.getListWorksheet();
     }
 
+    @GetMapping(path ="/listWorksheet/{studentId}")
+    public @ResponseBody List<WorksheetsDto> listStudentWorksheet(@PathVariable long studentId)
+        {
+            return service.getStudentWorksheet(studentId);
+        }
+
+
+    @GetMapping(path ="/listWorksheetbyMonth/{month}")
+    public @ResponseBody List<WorksheetsDto> listStudentWorksheet(@PathVariable String month)
+        {
+            return service.getStudentWorksheet(month);
+        }
+
+
     @PutMapping
     public @ResponseBody StudentResponseDto update(@RequestBody StudentRequestDto studentRequestDto){
         return service.update(studentRequestDto);

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-05-21T16:47:55-0500",
+    date = "2023-05-21T21:39:36-0500",
     comments = "version: 1.5.3.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 19.0.1 (Oracle Corporation)"
 )
 @Component
@@ -26,6 +26,7 @@ public class WorksheetsMapperImpl implements WorksheetsMapper {
         worksheets.grade( d.getGrade() );
         worksheets.worksheet( d.getWorksheet() );
         worksheets.extraWorksheet( d.getExtraWorksheet() );
+        worksheets.month( d.getMonth() );
         worksheets.weekDate( d.getWeekDate() );
 
         return worksheets.build();
@@ -44,6 +45,7 @@ public class WorksheetsMapperImpl implements WorksheetsMapper {
         worksheetsDto.grade( e.getGrade() );
         worksheetsDto.worksheet( e.getWorksheet() );
         worksheetsDto.extraWorksheet( e.getExtraWorksheet() );
+        worksheetsDto.month( e.getMonth() );
         worksheetsDto.weekDate( e.getWeekDate() );
 
         return worksheetsDto.build();

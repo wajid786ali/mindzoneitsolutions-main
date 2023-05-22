@@ -31,6 +31,7 @@ public class Worksheets implements Serializable {
     String grade;
     String worksheet;
     String extraWorksheet;
+    String month;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date weekDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
