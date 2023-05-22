@@ -3,13 +3,17 @@ package com.mindzone.service.impl;
 import com.mindzone.dto.StudentFeedBackDto;
 import com.mindzone.dto.StudentRequestDto;
 import com.mindzone.dto.StudentResponseDto;
+import com.mindzone.dto.WorksheetsDto;
 import com.mindzone.entity.Students;
 import com.mindzone.entity.StudentFeedBack;
+import com.mindzone.entity.Worksheets;
 import com.mindzone.exception.UserNotFoundException;
 import com.mindzone.mapper.StudentFeedBackMapper;
 import com.mindzone.mapper.StudentMapper;
+import com.mindzone.mapper.WorksheetsMapper;
 import com.mindzone.repository.FeedbackRepository;
 import com.mindzone.repository.StudentRepository;
+import com.mindzone.repository.WorksheetsRepository;
 import com.mindzone.service.StudentService;
 import com.mindzone.utils.MZUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -38,10 +42,16 @@ public class StudentServiceImpl implements StudentService {
     private FeedbackRepository feedbackRepository;
 
     @Autowired
+    private WorksheetsRepository worksheetsRepository;
+
+    @Autowired
     private StudentMapper studentMapper;
 
     @Autowired
     private StudentFeedBackMapper studentFeedBackMapper;
+
+    @Autowired
+    private WorksheetsMapper worksheetsMapper;
 
     @Autowired
     private MZUtils mzUtils;
@@ -117,22 +127,48 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public List<WorksheetsDto> getListWorksheet(){
+        List<Worksheets> studentWorksheets= worksheetsRepository.findAll(Sort.by(Sort.Direction.ASC,"studentId"));
+        return studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
+
+    }
+    @Override
+    public String addWorksheet(WorksheetsDto sdto) {
+        try {
+            Worksheets worksheets = new Worksheets();
+            worksheets.setStudentId(sdto.getStudentId());
+            worksheets.setStudentName(sdto.getStudentName());
+            worksheets.setGrade(sdto.getGrade());
+            worksheets.setWeekDate(sdto.getWeekDate());
+            worksheets.setWorksheet(sdto.getWorksheet());
+            worksheets.setExtraWorksheet(sdto.getExtraWorksheet());
+            long millis = System.currentTimeMillis();
+            java.sql.Date date = new java.sql.Date(millis);
+            worksheets.setInsertDate(date);
+            worksheetsRepository.save(worksheets);
+        } catch (Exception e){
+            return e.toString();
+        }
+        return "success";
+    }
+
+    @Override
     public String addFeedBack(String studentID,String sName,String noOfWorksheet,String comments,String worksheetType,String teacherName){
-      try {
-          StudentFeedBack studentFeedBack = new StudentFeedBack();
-          //  studentFeedBack.setStudentId(Long.parseLong(studentID));
-          studentFeedBack.setStudentName(sName);
-          studentFeedBack.setComments(comments);
-          studentFeedBack.setNoOfWorksheets(Integer.parseInt(noOfWorksheet));
-          studentFeedBack.setTeacherName(teacherName);
-          studentFeedBack.setWorksheetsType(worksheetType);
-          long millis = System.currentTimeMillis();
-          java.sql.Date date = new java.sql.Date(millis);
-          studentFeedBack.setInsertDate(date);
-          feedbackRepository.save(studentFeedBack);
-      } catch (Exception e){
-          return e.toString();
-      }
-          return "success";
+        try {
+            StudentFeedBack studentFeedBack = new StudentFeedBack();
+            //  studentFeedBack.setStudentId(Long.parseLong(studentID));
+            studentFeedBack.setStudentName(sName);
+            studentFeedBack.setComments(comments);
+            studentFeedBack.setNoOfWorksheets(Integer.parseInt(noOfWorksheet));
+            studentFeedBack.setTeacherName(teacherName);
+            studentFeedBack.setWorksheetsType(worksheetType);
+            long millis = System.currentTimeMillis();
+            java.sql.Date date = new java.sql.Date(millis);
+            studentFeedBack.setInsertDate(date);
+            feedbackRepository.save(studentFeedBack);
+        } catch (Exception e){
+            return e.toString();
+        }
+        return "success";
     }
 }

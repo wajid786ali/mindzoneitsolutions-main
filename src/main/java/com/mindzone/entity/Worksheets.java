@@ -3,6 +3,7 @@ package com.mindzone.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,22 +17,22 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "studentFeedBack")
+@Table(name = "WorkSheets")
 @Entity
 @EqualsAndHashCode
-public class StudentFeedBack implements Serializable {
+public class Worksheets implements Serializable {
 
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
-    int noOfWorksheets;
     String studentName;
     private Long studentId;
-    String teacherName;
-    String comments;
-    String worksheetsType;
-
+    String grade;
+    String worksheet;
+    String extraWorksheet;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date weekDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date insertDate;
 

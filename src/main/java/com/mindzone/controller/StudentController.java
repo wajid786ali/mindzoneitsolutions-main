@@ -3,6 +3,7 @@ package com.mindzone.controller;
 import com.mindzone.dto.StudentRequestDto;
 import com.mindzone.dto.StudentResponseDto;
 import com.mindzone.dto.StudentFeedBackDto;
+import com.mindzone.dto.WorksheetsDto;
 import com.mindzone.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,9 +32,19 @@ public class StudentController {
        return service.addFeedBack(sdto.getStudentId(), sdto.getStudentName(), sdto.getNoOfWorksheets(), sdto.getComments(), sdto.getWorksheetsType(),sdto.getTeacherName());
     }
 
+    @RequestMapping(value = "/addWorksheet", method = RequestMethod.POST)
+    public @ResponseBody String  addWorksheet( @RequestBody WorksheetsDto sdto){
+        return service.addWorksheet(sdto);
+    }
+
     @GetMapping(path ="/listFeedBack")
     public @ResponseBody List<StudentFeedBackDto> getFeedback(){
         return service.getFeedBacks();
+    }
+
+    @GetMapping(path ="/listWorksheet")
+    public @ResponseBody List<WorksheetsDto> listWorksheet(){
+        return service.getListWorksheet();
     }
 
     @PutMapping
