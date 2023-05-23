@@ -1,9 +1,6 @@
 package com.mindzone.controller;
 
-import com.mindzone.dto.StudentRequestDto;
-import com.mindzone.dto.StudentResponseDto;
-import com.mindzone.dto.StudentFeedBackDto;
-import com.mindzone.dto.WorksheetsDto;
+import com.mindzone.dto.*;
 import com.mindzone.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +34,15 @@ public class StudentController {
         return service.addWorksheet(sdto);
     }
 
+    @RequestMapping(value = "/addTeachers", method = RequestMethod.POST)
+    public @ResponseBody String  addTeachers( @RequestBody TeachersDto sdto){
+        return service.addTeachers(sdto);
+    }
+
+    @GetMapping(path ="/listTeachers")
+    public @ResponseBody List<TeachersDto> getListTeachers(){
+        return service.getListTeachers();
+    }
     @GetMapping(path ="/listFeedBack")
     public @ResponseBody List<StudentFeedBackDto> getFeedback(){
         return service.getFeedBacks();

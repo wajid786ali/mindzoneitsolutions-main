@@ -1,18 +1,18 @@
 package com.mindzone.service.impl;
 
-import com.mindzone.dto.StudentFeedBackDto;
-import com.mindzone.dto.StudentRequestDto;
-import com.mindzone.dto.StudentResponseDto;
-import com.mindzone.dto.WorksheetsDto;
+import com.mindzone.dto.*;
 import com.mindzone.entity.Students;
 import com.mindzone.entity.StudentFeedBack;
+import com.mindzone.entity.Teachers;
 import com.mindzone.entity.Worksheets;
 import com.mindzone.exception.UserNotFoundException;
 import com.mindzone.mapper.StudentFeedBackMapper;
 import com.mindzone.mapper.StudentMapper;
 import com.mindzone.mapper.WorksheetsMapper;
+import com.mindzone.mapper.TeachersMapper;
 import com.mindzone.repository.FeedbackRepository;
 import com.mindzone.repository.StudentRepository;
+import com.mindzone.repository.TeachersRepository;
 import com.mindzone.repository.WorksheetsRepository;
 import com.mindzone.service.StudentService;
 import com.mindzone.utils.MZUtils;
@@ -40,6 +40,11 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private FeedbackRepository feedbackRepository;
+
+    @Autowired
+    private TeachersRepository teachersRepository;
+    @Autowired
+    private TeachersMapper teachersMapper;
 
     @Autowired
     private WorksheetsRepository worksheetsRepository;
@@ -148,6 +153,35 @@ public class StudentServiceImpl implements StudentService {
         return studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
 
     }
+
+    @Override
+    public List<TeachersDto> getListTeachers() {
+        List<Teachers> teachersList= teachersRepository.findAll(Sort.by(Sort.Direction.ASC,"teachertName"));
+        return teachersList.stream().map(tr -> teachersMapper.toDto(tr)).collect(Collectors.toList());
+
+    }
+
+    @Override
+    public String addTeachers(TeachersDto sdto) {
+        try {
+            Teachers teachers = new Teachers();
+            teachers.setActive(true);
+            teachers.setTeachertName(sdto.getTeachertName());
+            teachers.setEmail(sdto.getEmail());
+            teachers.setPhoneNumber(sdto.getPhoneNumber());
+            teachers.setAddress(sdto.getAddress());
+            teachers.setStartDate(sdto.getStartDate());
+            long millis = System.currentTimeMillis();
+            java.sql.Date date = new java.sql.Date(millis);
+            teachers.setInsrtDate(date);
+            teachersRepository.save(teachers);
+        } catch (Exception e){
+            return e.toString();
+        }
+        return "success";
+    }
+
+
 
     @Override
     public String addWorksheet(WorksheetsDto sdto) {
