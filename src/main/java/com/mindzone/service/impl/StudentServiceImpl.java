@@ -1,19 +1,10 @@
 package com.mindzone.service.impl;
 
 import com.mindzone.dto.*;
-import com.mindzone.entity.Students;
-import com.mindzone.entity.StudentFeedBack;
-import com.mindzone.entity.Teachers;
-import com.mindzone.entity.Worksheets;
+import com.mindzone.entity.*;
 import com.mindzone.exception.UserNotFoundException;
-import com.mindzone.mapper.StudentFeedBackMapper;
-import com.mindzone.mapper.StudentMapper;
-import com.mindzone.mapper.WorksheetsMapper;
-import com.mindzone.mapper.TeachersMapper;
-import com.mindzone.repository.FeedbackRepository;
-import com.mindzone.repository.StudentRepository;
-import com.mindzone.repository.TeachersRepository;
-import com.mindzone.repository.WorksheetsRepository;
+import com.mindzone.mapper.*;
+import com.mindzone.repository.*;
 import com.mindzone.service.StudentService;
 import com.mindzone.utils.MZUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -42,10 +33,13 @@ public class StudentServiceImpl implements StudentService {
     private FeedbackRepository feedbackRepository;
 
     @Autowired
+    private StudentNotesRepository studentNotesRepository;
+    @Autowired
     private TeachersRepository teachersRepository;
     @Autowired
     private TeachersMapper teachersMapper;
-
+    @Autowired
+    private StudentNotesMapper studentNotesMapper;
     @Autowired
     private WorksheetsRepository worksheetsRepository;
 
@@ -136,8 +130,16 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<WorksheetsDto> getListWorksheet(){
         List<Worksheets> studentWorksheets= worksheetsRepository.findAll(Sort.by(Sort.Direction.ASC,"studentId"));
-        return studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
+         List<WorksheetsDto>  woksheet=studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
+        return woksheet;
+    }
 
+    @Override
+    public List<WorksheetsDto> getListNextWeekWorksheet(){
+        List<Worksheets> studentWorksheets= worksheetsRepository.findAll(Sort.by(Sort.Direction.ASC,"studentId"));
+        List<WorksheetsDto>  woksheet=studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
+
+        return woksheet;
     }
 
     @Override
@@ -159,6 +161,12 @@ public class StudentServiceImpl implements StudentService {
         List<Teachers> teachersList= teachersRepository.findAll(Sort.by(Sort.Direction.ASC,"teachertName"));
         return teachersList.stream().map(tr -> teachersMapper.toDto(tr)).collect(Collectors.toList());
 
+    }
+
+    @Override
+    public List<StudentNotesDto> getStudentNotes() {
+        List<StudentNotes> studentNotes= studentNotesRepository.findByResolved("N");
+        return studentNotes.stream().map(wsm -> studentNotesMapper.toDto(wsm)).collect(Collectors.toList());
     }
 
     @Override
@@ -203,6 +211,25 @@ public class StudentServiceImpl implements StudentService {
         return "success";
     }
 
+
+    @Override
+    public String addStudentNotes(StudentNotesDto sdto){
+        try {
+            StudentNotes studentNotes = new StudentNotes();
+            studentNotes.setStudentName(sdto.getStudentName());
+            studentNotes.setComments(sdto.getComments());
+            studentNotes.setStudentId(sdto.getStudentId());
+            studentNotes.setResolved("N");
+            studentNotes.setReminderDate(sdto.getReminderDate());
+            long millis = System.currentTimeMillis();
+            java.sql.Date date = new java.sql.Date(millis);
+            studentNotes.setCreatedDate(date);
+            studentNotesRepository.save(studentNotes);
+        } catch (Exception e){
+            return e.toString();
+        }
+        return "success";
+    }
     @Override
     public String addFeedBack(String studentID,String sName,String noOfWorksheet,String comments,String worksheetType,String teacherName){
         try {

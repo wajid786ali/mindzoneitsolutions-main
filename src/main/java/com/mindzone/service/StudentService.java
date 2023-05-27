@@ -1,6 +1,7 @@
 package com.mindzone.service;
 
 import com.mindzone.dto.*;
+import com.mindzone.entity.StudentNotes;
 import com.mindzone.entity.Students;
 
 import java.util.List;
@@ -29,5 +30,11 @@ public interface StudentService {
 
     String addTeachers(TeachersDto sdto);
 
+    String addStudentNotes(StudentNotesDto sdto);
+
     List<TeachersDto> getListTeachers();
+
+    public List<WorksheetsDto> getListNextWeekWorksheet();
+
+    List<StudentNotesDto> getStudentNotes();
 }

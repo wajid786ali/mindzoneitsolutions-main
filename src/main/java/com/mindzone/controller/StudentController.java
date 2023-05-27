@@ -39,6 +39,15 @@ public class StudentController {
         return service.addTeachers(sdto);
     }
 
+
+    @RequestMapping(value = "/addStudentNotes", method = RequestMethod.POST)
+    public @ResponseBody String  addStudentNotes( @RequestBody StudentNotesDto sdto){
+        return service.addStudentNotes(sdto);
+    }
+    @GetMapping(path ="/listReminders")
+    public @ResponseBody List<StudentNotesDto> getListReminders(){
+        return service.getStudentNotes();
+    }
     @GetMapping(path ="/listTeachers")
     public @ResponseBody List<TeachersDto> getListTeachers(){
         return service.getListTeachers();
