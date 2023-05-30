@@ -129,8 +129,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<WorksheetsDto> getListWorksheet(){
-        List<Worksheets> studentWorksheets= worksheetsRepository.findAll(Sort.by(Sort.Direction.ASC,"studentId"));
-         List<WorksheetsDto>  woksheet=studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
+    //    List<Worksheets> studentWorksheets= worksheetsRepository.findAll(Sort.by(Sort.Direction.ASC,"studentId"));
+        List<Worksheets> studentWorksheets= worksheetsRepository.findByWorksheetWithDate("aaa");
+        List<WorksheetsDto>  woksheet=studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
         return woksheet;
     }
 
@@ -158,7 +159,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<TeachersDto> getListTeachers() {
-        List<Teachers> teachersList= teachersRepository.findAll(Sort.by(Sort.Direction.ASC,"teachertName"));
+        List<Teachers> teachersList= teachersRepository.findAll(Sort.by(Sort.Direction.ASC,"teacherName"));
         return teachersList.stream().map(tr -> teachersMapper.toDto(tr)).collect(Collectors.toList());
 
     }
@@ -174,7 +175,7 @@ public class StudentServiceImpl implements StudentService {
         try {
             Teachers teachers = new Teachers();
             teachers.setActive(true);
-            teachers.setTeachertName(sdto.getTeachertName());
+            teachers.setTeacherName(sdto.getTeacherName());
             teachers.setEmail(sdto.getEmail());
             teachers.setPhoneNumber(sdto.getPhoneNumber());
             teachers.setAddress(sdto.getAddress());

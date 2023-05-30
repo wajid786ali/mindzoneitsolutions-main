@@ -20,7 +20,6 @@ public class WorksheetsDto {
     String grade;
     String worksheet;
     String extraWorksheet;
-
     String month;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date weekDate;

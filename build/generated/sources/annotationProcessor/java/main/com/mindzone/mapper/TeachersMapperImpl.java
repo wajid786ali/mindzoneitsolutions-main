@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-05-26T23:27:25-0500",
+    date = "2023-05-29T23:28:04-0500",
     comments = "version: 1.5.3.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 19.0.1 (Oracle Corporation)"
 )
 @Component
@@ -21,7 +21,7 @@ public class TeachersMapperImpl implements TeachersMapper {
 
         Teachers.TeachersBuilder teachers = Teachers.builder();
 
-        teachers.teachertName( d.getTeachertName() );
+        teachers.teacherName( d.getTeacherName() );
         teachers.active( d.isActive() );
         teachers.email( d.getEmail() );
         teachers.phoneNumber( d.getPhoneNumber() );
@@ -40,7 +40,7 @@ public class TeachersMapperImpl implements TeachersMapper {
 
         TeachersDto.TeachersDtoBuilder<?, ?> teachersDto = TeachersDto.builder();
 
-        teachersDto.teachertName( e.getTeachertName() );
+        teachersDto.teacherName( e.getTeacherName() );
         teachersDto.active( e.isActive() );
         teachersDto.email( e.getEmail() );
         teachersDto.phoneNumber( e.getPhoneNumber() );

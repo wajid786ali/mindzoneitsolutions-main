@@ -5,7 +5,10 @@ import com.mindzone.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.mindzone.utils.MZConstants.STUDENTS;
 import static com.mindzone.utils.MZConstants.URI;
@@ -57,10 +60,25 @@ public class StudentController {
         return service.getFeedBacks();
     }
 
-    @GetMapping(path ="/listWorksheet")
-    public @ResponseBody List<WorksheetsDto> listWorksheet(){
+ /*  @GetMapping(path ="/listWorksheet")
+   public @ResponseBody List<WorksheetsDto> listWorksheet(){
         return service.getListWorksheet();
+   }
+*/
+    @GetMapping(path ="/listWorksheet")
+    public @ResponseBody WorksheetListDto listWorksheet(){
+        WorksheetListDto wdto = new WorksheetListDto();
+        Set<String> wsSet= new HashSet();
+        List<WorksheetsDto> list= service.getListWorksheet();
+        for (int i= 0; i<list.size();i++){
+            WorksheetsDto ws= list.get(i);
+            wsSet.add(ws.getWeekDate().toString());
+        }
+        wdto.setWorksheetsDtoList(list);
+        wdto.setWeeklyDate(wsSet);
+        return wdto;
     }
+
 
     @GetMapping(path ="/listWorksheet/{studentId}")
     public @ResponseBody List<WorksheetsDto> listStudentWorksheet(@PathVariable long studentId)

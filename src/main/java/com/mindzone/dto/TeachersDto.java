@@ -17,7 +17,7 @@ import java.sql.Date;
 
 public class TeachersDto {
 
-    private String teachertName;
+    private String teacherName;
     private boolean active;
     private String email;
     private String phoneNumber;

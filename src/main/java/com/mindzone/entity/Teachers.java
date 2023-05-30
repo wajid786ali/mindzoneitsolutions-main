@@ -27,7 +27,7 @@ import java.util.UUID;
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    private String teachertName;
+    private String teacherName;
     private boolean active;
     private String email;
     private String phoneNumber;
