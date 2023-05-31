@@ -151,6 +151,13 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public List<WorksheetsDto> findByInsertDate(Date insertDate){
+        List<Worksheets> studentWorksheets= worksheetsRepository.findByWeekDate(insertDate);
+        return studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
+
+    }
+
+    @Override
     public List<WorksheetsDto> getStudentWorksheet(String month){
         List<Worksheets> studentWorksheets= worksheetsRepository.findByMonth(month);
         return studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());

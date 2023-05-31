@@ -4,6 +4,7 @@ import com.mindzone.dto.*;
 import com.mindzone.entity.StudentNotes;
 import com.mindzone.entity.Students;
 
+import java.sql.Date;
 import java.util.List;
 
 public interface StudentService {
@@ -27,7 +28,7 @@ public interface StudentService {
 
     public List<WorksheetsDto> getStudentWorksheet(long studentId);
     public List<WorksheetsDto> getStudentWorksheet(String month);
-
+    public List<WorksheetsDto> findByInsertDate(Date insertDate);
     String addTeachers(TeachersDto sdto);
 
     String addStudentNotes(StudentNotesDto sdto);

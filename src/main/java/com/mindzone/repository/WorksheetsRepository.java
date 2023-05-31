@@ -15,6 +15,7 @@ public interface WorksheetsRepository extends JpaRepository<Worksheets, Integer>
     List<Worksheets> findByStudentId(Long studentId);
     List<Worksheets> findByMonth(String month);
 
+    List<Worksheets> findByWeekDate(Date weekDate);
     @Query("SELECT a FROM  Worksheets a WHERE insertDate  > '2023-05-21'" )
     List<Worksheets> findByWorksheetWithDate(String insertDate);
 

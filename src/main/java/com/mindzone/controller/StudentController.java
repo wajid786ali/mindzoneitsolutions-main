@@ -5,7 +5,8 @@ import com.mindzone.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -86,6 +87,20 @@ public class StudentController {
             return service.getStudentWorksheet(studentId);
         }
 
+    @GetMapping(path ="/listWorksheetbyWeekDate/{weekDate}")
+    public @ResponseBody List<WorksheetsDto> listWorksheetbyWeekDate(@PathVariable String weekDate)
+    {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date date = sdf.parse(weekDate);
+
+            java.sql.Date sqlDate = new Date(date.getTime());
+            return service.findByInsertDate(sqlDate);
+        }catch (Exception e){
+
+        }
+       return null;
+    }
 
     @GetMapping(path ="/listWorksheetbyMonth/{month}")
     public @ResponseBody List<WorksheetsDto> listStudentWorksheet(@PathVariable String month)
