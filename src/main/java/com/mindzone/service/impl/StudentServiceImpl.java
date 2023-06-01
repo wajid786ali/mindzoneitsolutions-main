@@ -7,6 +7,7 @@ import com.mindzone.mapper.*;
 import com.mindzone.repository.*;
 import com.mindzone.service.StudentService;
 import com.mindzone.utils.MZUtils;
+import com.mindzone.utils.StatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -60,10 +61,9 @@ public class StudentServiceImpl implements StudentService {
     public StudentResponseDto create(StudentRequestDto studentRequestDto) {
 
         Students student = studentMapper.toEntity(studentRequestDto);
-        //Change generate id logic as required.
         long studentId = mzUtils.generateId();
         student.setStudentId(studentId);
-
+        student.setStatus("NEW");
         Students savedStudent = repository.save(student);
         return studentMapper.toDto(savedStudent);
     }
@@ -101,7 +101,8 @@ public class StudentServiceImpl implements StudentService {
     public void delete(long studentId) {
         try {
             Students user = repository.findByStudentId(studentId).orElseThrow(() -> new UserNotFoundException("User not found by studentId:" + studentId));
-            repository.delete(user);
+            user.setStatus("INACTIVE");
+            repository.save(user);
         }catch(UserNotFoundException ex){
             log.error("Exception in delete method..!!",ex.getMessage());
         }

@@ -1,7 +1,6 @@
 package com.mindzone.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.mindzone.utils.StatusEnum;
 import io.hypersistence.utils.hibernate.type.array.ListArrayType;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -47,5 +46,5 @@ public class Students implements Serializable {
     private Date startDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date endDate;
-    private StatusEnum status;
+    private String status;
 }

@@ -31,5 +31,5 @@ public class StudentResponseDto {
     private Date startDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date endDate;
-    private StatusEnum status;
+    private String status;
 }
