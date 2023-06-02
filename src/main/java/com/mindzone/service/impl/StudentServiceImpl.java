@@ -63,7 +63,7 @@ public class StudentServiceImpl implements StudentService {
         Students student = studentMapper.toEntity(studentRequestDto);
         long studentId = mzUtils.generateId();
         student.setStudentId(studentId);
-        student.setStatus("NEW");
+        student.setStatus("New");
         Students savedStudent = repository.save(student);
         return studentMapper.toDto(savedStudent);
     }
@@ -101,7 +101,7 @@ public class StudentServiceImpl implements StudentService {
     public void delete(long studentId) {
         try {
             Students user = repository.findByStudentId(studentId).orElseThrow(() -> new UserNotFoundException("User not found by studentId:" + studentId));
-            user.setStatus("INACTIVE");
+            user.setStatus("Pause");
             repository.save(user);
         }catch(UserNotFoundException ex){
             log.error("Exception in delete method..!!",ex.getMessage());
