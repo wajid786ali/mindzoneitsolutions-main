@@ -20,6 +20,7 @@ public class TeachersDto {
     private String teacherName;
     private boolean active;
     private String email;
+    private String password;
     private String phoneNumber;
     private String address;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

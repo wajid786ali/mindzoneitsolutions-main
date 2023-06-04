@@ -13,5 +13,5 @@ import java.util.UUID;
 @Repository
 public interface StudentNotesRepository extends JpaRepository<StudentNotes, UUID> {
    List<StudentNotes> findByResolved(String resolved);
-   Optional<StudentNotes> findByStudentId(Long studentId);
+   Optional<StudentNotes> findById(UUID studentId);
 }

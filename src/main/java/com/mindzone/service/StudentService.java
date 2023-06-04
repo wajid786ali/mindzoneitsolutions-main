@@ -7,6 +7,7 @@ import com.mindzone.entity.UserName;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.UUID;
 
 public interface StudentService {
 
@@ -46,5 +47,5 @@ public interface StudentService {
 
     public UserNameDto userName(String email, String password);
 
-    void reminderDelete(long studentId);
+    void reminderDelete(String studentId);
 }

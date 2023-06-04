@@ -25,6 +25,7 @@ public class StudentNotes implements Serializable {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
+    private Long noteId;
     private Long studentId;
     private String studentName;
     private String comments;

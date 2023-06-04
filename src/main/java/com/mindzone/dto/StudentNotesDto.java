@@ -8,13 +8,15 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.sql.Date;
+import java.util.UUID;
+
 @Getter
 @Setter
 @SuperBuilder
 @EqualsAndHashCode
 @NoArgsConstructor
 public class StudentNotesDto {
-
+    private UUID id;
     private Long studentId;
     private String studentName;
     private String comments;

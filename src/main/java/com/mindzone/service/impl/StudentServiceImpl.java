@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
@@ -182,9 +183,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void reminderDelete(long studentId) {
+    public void reminderDelete(String studentId) {
         try {
-            StudentNotes notes = studentNotesRepository.findByStudentId(studentId).orElseThrow(() -> new UserNotFoundException("User not found by studentId:" + studentId));
+            UUID id= UUID.fromString(studentId);
+            StudentNotes notes = studentNotesRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found by studentId:" + studentId));
             notes.setResolved("Resolved");
             studentNotesRepository.save(notes);
         }catch(UserNotFoundException ex){

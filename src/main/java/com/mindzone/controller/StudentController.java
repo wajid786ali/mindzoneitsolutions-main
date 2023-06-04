@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import static com.mindzone.utils.MZConstants.STUDENTS;
 import static com.mindzone.utils.MZConstants.URI;
@@ -58,7 +59,7 @@ public class StudentController {
     }
 
     @DeleteMapping(path ="/reminderDelete/{studentId}")
-    public void reminderDelete(@PathVariable long studentId){
+    public void reminderDelete(@PathVariable String studentId){
         service.reminderDelete(studentId);
     }
 
