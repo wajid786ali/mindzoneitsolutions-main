@@ -3,6 +3,7 @@ package com.mindzone.service;
 import com.mindzone.dto.*;
 import com.mindzone.entity.StudentNotes;
 import com.mindzone.entity.Students;
+import com.mindzone.entity.UserName;
 
 import java.sql.Date;
 import java.util.List;
@@ -19,7 +20,8 @@ public interface StudentService {
 
     public List<StudentFeedBackDto> getFeedBacks();
 
-    public String addFeedBack(String studentID,String sName,String noOfWorksheet,String comments,String worksheetType,String teacherName);
+    public String addFeedBack(String studentID, String sName, String noOfWorksheet, String comments, String worksheetType, String teacherName);
+
     void delete(long userId);
 
     String addWorksheet(WorksheetsDto sdto);
@@ -27,8 +29,11 @@ public interface StudentService {
     List<WorksheetsDto> getListWorksheet();
 
     public List<WorksheetsDto> getStudentWorksheet(long studentId);
+
     public List<WorksheetsDto> getStudentWorksheet(String month);
+
     public List<WorksheetsDto> findByInsertDate(Date insertDate);
+
     String addTeachers(TeachersDto sdto);
 
     String addStudentNotes(StudentNotesDto sdto);
@@ -37,5 +42,9 @@ public interface StudentService {
 
     public List<WorksheetsDto> getListNextWeekWorksheet();
 
-    List<StudentNotesDto> getStudentNotes();
+    List<StudentNotesDto> getStudentNotes(String status);
+
+    public UserNameDto userName(String email, String password);
+
+    void reminderDelete(long studentId);
 }

@@ -35,6 +35,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private StudentNotesRepository studentNotesRepository;
+
+    @Autowired
+    private UserNameRepository userNameRepository;
     @Autowired
     private TeachersRepository teachersRepository;
     @Autowired
@@ -173,10 +176,38 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentNotesDto> getStudentNotes() {
-        List<StudentNotes> studentNotes= studentNotesRepository.findByResolved("N");
+    public List<StudentNotesDto> getStudentNotes(String status) {
+        List<StudentNotes> studentNotes= studentNotesRepository.findByResolved(status);
         return studentNotes.stream().map(wsm -> studentNotesMapper.toDto(wsm)).collect(Collectors.toList());
     }
+
+    @Override
+    public void reminderDelete(long studentId) {
+        try {
+            StudentNotes notes = studentNotesRepository.findByStudentId(studentId).orElseThrow(() -> new UserNotFoundException("User not found by studentId:" + studentId));
+            notes.setResolved("Resolved");
+            studentNotesRepository.save(notes);
+        }catch(UserNotFoundException ex){
+            log.error("Exception in delete method..!!",ex.getMessage());
+        }
+    }
+
+    @Override
+    public UserNameDto userName(String email, String password) {
+            UserName userName= userNameRepository.findByEmail(email);
+            UserNameDto udto = new UserNameDto();
+        if (userName.getPassword().equalsIgnoreCase(password)) {
+            udto.setEmail(userName.getEmail());
+            udto.setName(userName.getName());
+            udto.setCenter(userName.getCenter());
+            udto.setStatus(userName.getStatus());
+        }
+        return udto;
+
+    }
+
+
+
 
     @Override
     public String addTeachers(TeachersDto sdto) {
@@ -228,7 +259,7 @@ public class StudentServiceImpl implements StudentService {
             studentNotes.setStudentName(sdto.getStudentName());
             studentNotes.setComments(sdto.getComments());
             studentNotes.setStudentId(sdto.getStudentId());
-            studentNotes.setResolved("N");
+            studentNotes.setResolved("New");
             studentNotes.setReminderDate(sdto.getReminderDate());
             long millis = System.currentTimeMillis();
             java.sql.Date date = new java.sql.Date(millis);

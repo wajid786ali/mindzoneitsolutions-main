@@ -43,15 +43,25 @@ public class StudentController {
         return service.addTeachers(sdto);
     }
 
-
     @RequestMapping(value = "/addStudentNotes", method = RequestMethod.POST)
     public @ResponseBody String  addStudentNotes( @RequestBody StudentNotesDto sdto){
         return service.addStudentNotes(sdto);
     }
-    @GetMapping(path ="/listReminders")
-    public @ResponseBody List<StudentNotesDto> getListReminders(){
-        return service.getStudentNotes();
+    @GetMapping(path ="/listRemindersNew")
+    public @ResponseBody List<StudentNotesDto> getListRemindersNew(){
+        return service.getStudentNotes("New");
     }
+
+    @GetMapping(path ="/listRemindersResolve")
+    public @ResponseBody List<StudentNotesDto> getListRemindersResolved(){
+        return service.getStudentNotes("Resolved");
+    }
+
+    @DeleteMapping(path ="/reminderDelete/{studentId}")
+    public void reminderDelete(@PathVariable long studentId){
+        service.reminderDelete(studentId);
+    }
+
     @GetMapping(path ="/listTeachers")
     public @ResponseBody List<TeachersDto> getListTeachers(){
         return service.getListTeachers();
@@ -107,6 +117,11 @@ public class StudentController {
         {
             return service.getStudentWorksheet(month);
         }
+
+    @RequestMapping(value = "/checkUserName", method = RequestMethod.POST)
+    public @ResponseBody UserNameDto userName(@RequestBody UserNameDto userNameDto){
+        return service.userName(userNameDto.getEmail(),userNameDto.getPassword());
+    }
 
 
     @PutMapping

@@ -7,9 +7,11 @@ import com.mindzone.entity.Worksheets;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface StudentNotesRepository extends JpaRepository<StudentNotes, UUID> {
    List<StudentNotes> findByResolved(String resolved);
+   Optional<StudentNotes> findByStudentId(Long studentId);
 }
