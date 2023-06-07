@@ -194,6 +194,8 @@ public class StudentServiceImpl implements StudentService {
         }
     }
 
+
+
     @Override
     public UserNameDto userName(String email, String password) {
             UserName userName= userNameRepository.findByEmail(email);
@@ -209,15 +211,25 @@ public class StudentServiceImpl implements StudentService {
     }
 
 
-
+    @Override
+    public void teacherDelete(String email) {
+        try {
+            Teachers teachers = teachersRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("teacher not found by email:" + email));
+            teachers.setActive("Deleted");
+            teachersRepository.save(teachers);
+        }catch(UserNotFoundException ex){
+            log.error("Exception in delete method..!!",ex.getMessage());
+        }
+    }
 
     @Override
     public String addTeachers(TeachersDto sdto) {
         try {
             Teachers teachers = new Teachers();
-            teachers.setActive(true);
+            teachers.setActive("Active");
             teachers.setTeacherName(sdto.getTeacherName());
             teachers.setEmail(sdto.getEmail());
+            teachers.setPassword(sdto.getPassword());
             teachers.setPhoneNumber(sdto.getPhoneNumber());
             teachers.setAddress(sdto.getAddress());
             teachers.setStartDate(sdto.getStartDate());

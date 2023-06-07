@@ -28,7 +28,7 @@ import java.util.UUID;
     private UUID id;
 
     private String teacherName;
-    private boolean active;
+    private String active;
     private String email;
     private String password;
     private String phoneNumber;

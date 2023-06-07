@@ -48,4 +48,6 @@ public interface StudentService {
     public UserNameDto userName(String email, String password);
 
     void reminderDelete(String studentId);
+
+    void teacherDelete(String email);
 }

@@ -63,6 +63,12 @@ public class StudentController {
         service.reminderDelete(studentId);
     }
 
+    @DeleteMapping(path ="/deleteTeachers/{email}")
+    public void deleteTeachers(@PathVariable String email){
+        service.teacherDelete(email);
+    }
+
+
     @GetMapping(path ="/listTeachers")
     public @ResponseBody List<TeachersDto> getListTeachers(){
         return service.getListTeachers();
