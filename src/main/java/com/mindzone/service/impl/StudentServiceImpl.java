@@ -73,7 +73,6 @@ public class StudentServiceImpl implements StudentService {
     }
 
 
-
     @Override
     public StudentResponseDto update(StudentRequestDto studentRequestDto) {
 
@@ -96,7 +95,7 @@ public class StudentServiceImpl implements StudentService {
                 savedUser = repository.save(foundStudent);
             }
         } catch (Exception ex) {
-            log.error("Exception occurred in update method..!!"+ex.getMessage());
+            log.error("Exception occurred in update method..!!" + ex.getMessage());
         }
         return studentMapper.toDto(savedUser);
     }
@@ -107,8 +106,8 @@ public class StudentServiceImpl implements StudentService {
             Students user = repository.findByStudentId(studentId).orElseThrow(() -> new UserNotFoundException("User not found by studentId:" + studentId));
             user.setStatus("Pause");
             repository.save(user);
-        }catch(UserNotFoundException ex){
-            log.error("Exception in delete method..!!",ex.getMessage());
+        } catch (UserNotFoundException ex) {
+            log.error("Exception in delete method..!!", ex.getMessage());
         }
     }
 
@@ -119,87 +118,85 @@ public class StudentServiceImpl implements StudentService {
     }
 
 
-
     @Override
     public List<StudentResponseDto> getAll() {
-        List<Students> students = repository.findAll(Sort.by(Sort.Direction.ASC,"studentId"));
+        List<Students> students = repository.findAll(Sort.by(Sort.Direction.ASC, "studentId"));
         return students.stream().map(student -> studentMapper.toDto(student)).collect(Collectors.toList());
     }
 
     @Override
     public List<StudentFeedBackDto> getFeedBacks() {
-        List<StudentFeedBack> studentFeedBacks = feedbackRepository.findAll(Sort.by(Sort.Direction.ASC,"studentId"));
+        List<StudentFeedBack> studentFeedBacks = feedbackRepository.findAll(Sort.by(Sort.Direction.ASC, "studentId"));
         return studentFeedBacks.stream().map(ws -> studentFeedBackMapper.toDto(ws)).collect(Collectors.toList());
     }
 
     @Override
-    public List<WorksheetsDto> getListWorksheet(){
-    //    List<Worksheets> studentWorksheets= worksheetsRepository.findAll(Sort.by(Sort.Direction.ASC,"studentId"));
-        List<Worksheets> studentWorksheets= worksheetsRepository.findByWorksheetWithDate("aaa");
-        List<WorksheetsDto>  woksheet=studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
+    public List<WorksheetsDto> getListWorksheet() {
+        //    List<Worksheets> studentWorksheets= worksheetsRepository.findAll(Sort.by(Sort.Direction.ASC,"studentId"));
+        List<Worksheets> studentWorksheets = worksheetsRepository.findByWorksheetWithDate("aaa");
+        List<WorksheetsDto> woksheet = studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
         return woksheet;
     }
 
     @Override
-    public List<WorksheetsDto> getListNextWeekWorksheet(){
-        List<Worksheets> studentWorksheets= worksheetsRepository.findAll(Sort.by(Sort.Direction.ASC,"studentId"));
-        List<WorksheetsDto>  woksheet=studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
+    public List<WorksheetsDto> getListNextWeekWorksheet() {
+        List<Worksheets> studentWorksheets = worksheetsRepository.findAll(Sort.by(Sort.Direction.ASC, "studentId"));
+        List<WorksheetsDto> woksheet = studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
 
         return woksheet;
     }
 
     @Override
-    public List<WorksheetsDto> getStudentWorksheet(long studentId){
-        List<Worksheets> studentWorksheets= worksheetsRepository.findByStudentId(studentId);
+    public List<WorksheetsDto> getStudentWorksheet(long studentId) {
+        List<Worksheets> studentWorksheets = worksheetsRepository.findByStudentId(studentId);
         return studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
 
     }
 
     @Override
-    public List<WorksheetsDto> findByInsertDate(Date insertDate){
-        List<Worksheets> studentWorksheets= worksheetsRepository.findByWeekDate(insertDate);
+    public List<WorksheetsDto> findByInsertDate(Date insertDate) {
+        List<Worksheets> studentWorksheets = worksheetsRepository.findByWeekDate(insertDate);
         return studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
 
     }
 
     @Override
-    public List<WorksheetsDto> getStudentWorksheet(String month){
-        List<Worksheets> studentWorksheets= worksheetsRepository.findByMonth(month);
+    public List<WorksheetsDto> getStudentWorksheet(String month) {
+        List<Worksheets> studentWorksheets = worksheetsRepository.findByMonth(month);
         return studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
 
     }
 
     @Override
     public List<TeachersDto> getListTeachers() {
-        List<Teachers> teachersList= teachersRepository.findAll(Sort.by(Sort.Direction.ASC,"teacherName"));
+        List<Teachers> teachersList = teachersRepository.findAll(Sort.by(Sort.Direction.ASC, "teacherName"));
         return teachersList.stream().map(tr -> teachersMapper.toDto(tr)).collect(Collectors.toList());
 
     }
 
     @Override
     public List<StudentNotesDto> getStudentNotes(String status) {
-        List<StudentNotes> studentNotes= studentNotesRepository.findByResolved(status);
+        List<StudentNotes> studentNotes = studentNotesRepository.findByResolved(status);
         return studentNotes.stream().map(wsm -> studentNotesMapper.toDto(wsm)).collect(Collectors.toList());
     }
 
     @Override
     public void reminderDelete(String studentId) {
         try {
-            UUID id= UUID.fromString(studentId);
+            UUID id = UUID.fromString(studentId);
             StudentNotes notes = studentNotesRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found by studentId:" + studentId));
             notes.setResolved("Resolved");
             studentNotesRepository.save(notes);
-        }catch(UserNotFoundException ex){
-            log.error("Exception in delete method..!!",ex.getMessage());
+        } catch (UserNotFoundException ex) {
+            log.error("Exception in delete method..!!", ex.getMessage());
         }
     }
 
 
-
     @Override
     public UserNameDto userName(String email, String password) {
-            UserName userName= userNameRepository.findByEmail(email);
-            UserNameDto udto = new UserNameDto();
+        UserName userName = userNameRepository.findByEmail(email);
+        UserNameDto udto = new UserNameDto();
         if (userName.getPassword().equalsIgnoreCase(password)) {
             udto.setEmail(userName.getEmail());
             udto.setName(userName.getName());
@@ -217,8 +214,8 @@ public class StudentServiceImpl implements StudentService {
             Teachers teachers = teachersRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("teacher not found by email:" + email));
             teachers.setActive("Deleted");
             teachersRepository.save(teachers);
-        }catch(UserNotFoundException ex){
-            log.error("Exception in delete method..!!",ex.getMessage());
+        } catch (UserNotFoundException ex) {
+            log.error("Exception in delete method..!!", ex.getMessage());
         }
     }
 
@@ -237,12 +234,35 @@ public class StudentServiceImpl implements StudentService {
             java.sql.Date date = new java.sql.Date(millis);
             teachers.setInsrtDate(date);
             teachersRepository.save(teachers);
-        } catch (Exception e){
+        } catch (Exception e) {
             return e.toString();
         }
         return "success";
     }
 
+    @Override
+    public String addWeeklyWorksheet(List<WorksheetsDto> swsList) {
+        String message="added";
+        for (int i = 0; i < swsList.size(); i++) {
+            WorksheetsDto sdto=swsList.get(i);
+            try {
+                Worksheets worksheets = new Worksheets();
+                worksheets.setStudentId(sdto.getStudentId());
+                worksheets.setStudentName(sdto.getStudentName());
+                worksheets.setGrade(sdto.getGrade());
+                worksheets.setWeekDate(sdto.getWeekDate());
+                worksheets.setWorksheet(sdto.getWorksheet());
+                worksheets.setExtraWorksheet(sdto.getExtraWorksheet());
+                long millis = System.currentTimeMillis();
+                java.sql.Date date = new java.sql.Date(millis);
+                worksheets.setInsertDate(date);
+                worksheetsRepository.save(worksheets);
+            } catch (Exception e) {
+                message=message+ e.getMessage();
+            }
+        }
+        return message;
+    }
 
 
     @Override

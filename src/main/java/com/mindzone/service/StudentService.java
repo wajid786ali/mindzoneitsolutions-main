@@ -26,6 +26,7 @@ public interface StudentService {
     void delete(long userId);
 
     String addWorksheet(WorksheetsDto sdto);
+    String addWeeklyWorksheet(List<WorksheetsDto> weeklyWSList);
 
     List<WorksheetsDto> getListWorksheet();
 

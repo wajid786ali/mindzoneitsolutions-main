@@ -2,6 +2,7 @@ package com.mindzone.controller;
 
 import com.mindzone.dto.*;
 import com.mindzone.service.StudentService;
+import com.mindzone.service.worksheets.NextWeekWorksheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,8 @@ public class StudentController {
 
     @Autowired
     private StudentService service;
-
+    @Autowired
+    private NextWeekWorksheet nextWeekWorksheet;
 
     @PostMapping
     public @ResponseBody StudentResponseDto create(@RequestBody StudentRequestDto studentRequestDto){
@@ -32,6 +34,10 @@ public class StudentController {
     @RequestMapping(value = "/addFeedBack", method = RequestMethod.POST)
     public @ResponseBody String  addFeedBack( @RequestBody StudentFeedBackDto sdto){
        return service.addFeedBack(sdto.getStudentId(), sdto.getStudentName(), sdto.getNoOfWorksheets(), sdto.getComments(), sdto.getWorksheetsType(),sdto.getTeacherName());
+    }
+    @RequestMapping(value = "/addWeeklyWorksheet", method = RequestMethod.POST)
+    public @ResponseBody String  addWeeklyWorksheet( @RequestBody List<WorksheetsDto> sdto){
+         return service.addWeeklyWorksheet(sdto);
     }
 
     @RequestMapping(value = "/addWorksheet", method = RequestMethod.POST)
@@ -114,7 +120,7 @@ public class StudentController {
             java.sql.Date sqlDate = new Date(date.getTime());
             return service.findByInsertDate(sqlDate);
         }catch (Exception e){
-
+          e.printStackTrace();
         }
        return null;
     }
@@ -124,6 +130,11 @@ public class StudentController {
         {
             return service.getStudentWorksheet(month);
         }
+
+    @GetMapping(path ="/newWeeklyWorksheets/{weeklyNewDate}/{weeklyDate}")
+    public @ResponseBody List<WorksheetsDto>  newWeeklyWorksheets(@PathVariable String weeklyDate,@PathVariable String weeklyNewDate){
+        return nextWeekWorksheet.homeworkGenerator(weeklyDate,weeklyNewDate);
+    }
 
     @RequestMapping(value = "/checkUserName", method = RequestMethod.POST)
     public @ResponseBody UserNameDto userName(@RequestBody UserNameDto userNameDto){
@@ -144,8 +155,6 @@ public class StudentController {
     public @ResponseBody List<StudentResponseDto> get(){
         return service.getAll();
     }
-
-
 
     @DeleteMapping(path ="/{studentId}")
     public void delete(@PathVariable long studentId){
