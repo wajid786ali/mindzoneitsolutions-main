@@ -27,7 +27,7 @@ public interface StudentService {
 
     String addWorksheet(WorksheetsDto sdto);
     String addWeeklyWorksheet(List<WorksheetsDto> weeklyWSList);
-
+    public String updateWeeklyWorksheet(WorksheetsDto worksheetsDto);
     List<WorksheetsDto> getListWorksheet();
 
     public List<WorksheetsDto> getStudentWorksheet(long studentId);
@@ -35,6 +35,8 @@ public interface StudentService {
     public List<WorksheetsDto> getStudentWorksheet(String month);
 
     public List<WorksheetsDto> findByInsertDate(Date insertDate);
+
+    public List<WorksheetsDto>  findLastWeekyWorksheet();
 
     String addTeachers(TeachersDto sdto);
 

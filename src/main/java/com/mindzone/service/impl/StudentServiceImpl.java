@@ -131,11 +131,19 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<WorksheetsDto> getListWorksheet() {
-        //    List<Worksheets> studentWorksheets= worksheetsRepository.findAll(Sort.by(Sort.Direction.ASC,"studentId"));
-        List<Worksheets> studentWorksheets = worksheetsRepository.findByWorksheetWithDate("aaa");
+    public List<WorksheetsDto>  findLastWeekyWorksheet(){
+        List<Worksheets> studentWorksheets = worksheetsRepository.findLastWeekyWorksheet();
         List<WorksheetsDto> woksheet = studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
         return woksheet;
+    }
+
+    private Date gat45DaysAdvance() {
+        Calendar c = Calendar.getInstance();
+        Date todaysDate = new Date(new java.util.Date().getTime());
+        c.setTime(todaysDate);
+        c.add(Calendar.DATE, -45);
+        Date date = new Date(c.getTimeInMillis());
+        return date;
     }
 
     @Override
@@ -262,6 +270,33 @@ public class StudentServiceImpl implements StudentService {
             }
         }
         return message;
+    }
+
+    @Override
+    public String updateWeeklyWorksheet(WorksheetsDto worksheetsDto) {
+        String message="path updated";
+
+
+            try {
+                Worksheets worksheets = worksheetsRepository.findById(worksheetsDto.getId()).orElseThrow(() -> new UserNotFoundException("worksheet not found by id:" + worksheetsDto.getId()));
+                worksheets.setWorksheetPath(worksheetsDto.getWorksheetPath());
+                worksheets.setExtraWorksheetPath(worksheetsDto.getExtraWorksheetPath());
+                long millis = System.currentTimeMillis();
+                java.sql.Date date = new java.sql.Date(millis);
+                worksheets.setUpdateDate(date);
+                worksheetsRepository.save(worksheets);
+            } catch (Exception e) {
+                message=message+ e.getMessage();
+            }
+        return message;
+    }
+
+    @Override
+    public List<WorksheetsDto> getListWorksheet() {
+
+        List<Worksheets> studentWorksheets = worksheetsRepository.findByWeekDateGreaterThan(gat45DaysAdvance());
+        return studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
+
     }
 
 

@@ -20,14 +20,10 @@ public class NextWeekWorskheetImpl implements  NextWeekWorksheet {
     String directoryWindows = "";
 
 
-    private  List<WorksheetsDto> listWorksheetbyWeekDate( String weekDate)
+    private  List<WorksheetsDto> listLastWeek()
     {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            java.util.Date date = sdf.parse(weekDate);
-
-            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-            return service.findByInsertDate(sqlDate);
+            return service.findLastWeekyWorksheet();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -53,7 +49,7 @@ public class NextWeekWorskheetImpl implements  NextWeekWorksheet {
     return studentwork;
     }
     @Override
-     public  List<WorksheetsDto>  homeworkGenerator(String weekdate ,String newWeekDate) {
+     public  List<WorksheetsDto>  homeworkGenerator(String newWeekDate) {
         List<WorksheetsDto> newWSList= new ArrayList<>();
         try {
             ListFilesUtil listFilesUtil = new ListFilesUtil();
@@ -61,7 +57,7 @@ public class NextWeekWorskheetImpl implements  NextWeekWorksheet {
             directoryWindows = "C://sajid//MindZoneLearning//study Material//Math_Final";
             Map<String, ArrayList<String>> studentOldWorksheet= studentHistory();
 
-            List<WorksheetsDto> wsList= listWorksheetbyWeekDate(weekdate);
+            List<WorksheetsDto> wsList= listLastWeek();
         //    Map<String, ArrayList<String>> wsMap= studentHistory();
 
             Map<String, String> fileNameMap = new HashMap<String, String>();
@@ -86,18 +82,19 @@ public class NextWeekWorskheetImpl implements  NextWeekWorksheet {
                         wdto.setGrade(studentResponseDto.getGrade());
                         wdto.setWeekDate(sqlDate);
                         WorksheetsDto filenameDto = studentWorksheet.get(studentname);
-                        String filename = filenameDto.getWorksheet();
-                        newWorksheets(fileNameMap, filename, studentOldWorksheet.get(studentname), wdto);
-                        String filenameExtra = filenameDto.getExtraWorksheet();
-                        if (filenameExtra != null)
-                        newWorksheetsExtra(fileNameMap, filenameExtra, studentOldWorksheet.get(studentname), wdto);
-
+                        if (filenameDto != null) {
+                            String filename = filenameDto.getWorksheet();
+                            if (filename != null) {
+                                newWorksheets(fileNameMap, filename, studentOldWorksheet.get(studentname), wdto);
+                            }
+                            String filenameExtra = filenameDto.getExtraWorksheet();
+                            if (filenameExtra != null) {
+                                newWorksheetsExtra(fileNameMap, filenameExtra, studentOldWorksheet.get(studentname), wdto);
+                            }
+                            }
                         newWSList.add(wdto);
                     }
             }
-
-
-         //   newWorksheets(fileNameMap, filenameExtra, work);
         } catch (Exception e) {
             System.out.println("main1 *" + e.toString());
         }

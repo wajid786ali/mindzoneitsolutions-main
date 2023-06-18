@@ -8,6 +8,8 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.sql.Date;
+import java.util.UUID;
+
 @Getter
 @Setter
 @SuperBuilder
@@ -15,6 +17,7 @@ import java.sql.Date;
 @NoArgsConstructor
 public class WorksheetsDto {
 
+    private UUID id;
     String studentName;
     private Long studentId;
     String grade;

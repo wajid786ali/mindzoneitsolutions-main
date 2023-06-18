@@ -2,6 +2,7 @@ package com.mindzone.controller;
 
 import com.mindzone.dto.*;
 import com.mindzone.service.StudentService;
+import com.mindzone.service.worksheets.GenerateNewWorksheets;
 import com.mindzone.service.worksheets.NextWeekWorksheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,9 @@ public class StudentController {
     private StudentService service;
     @Autowired
     private NextWeekWorksheet nextWeekWorksheet;
+
+    @Autowired
+    private GenerateNewWorksheets generateNewWorksheets;
 
     @PostMapping
     public @ResponseBody StudentResponseDto create(@RequestBody StudentRequestDto studentRequestDto){
@@ -118,7 +122,8 @@ public class StudentController {
             java.util.Date date = sdf.parse(weekDate);
 
             java.sql.Date sqlDate = new Date(date.getTime());
-            return service.findByInsertDate(sqlDate);
+            List<WorksheetsDto> list=service.findByInsertDate(sqlDate);
+            return list;
         }catch (Exception e){
           e.printStackTrace();
         }
@@ -131,10 +136,16 @@ public class StudentController {
             return service.getStudentWorksheet(month);
         }
 
-    @GetMapping(path ="/newWeeklyWorksheets/{weeklyNewDate}/{weeklyDate}")
-    public @ResponseBody List<WorksheetsDto>  newWeeklyWorksheets(@PathVariable String weeklyDate,@PathVariable String weeklyNewDate){
-        return nextWeekWorksheet.homeworkGenerator(weeklyDate,weeklyNewDate);
+    @GetMapping(path ="/newWeeklyWorksheets/{weeklyDate}")
+    public @ResponseBody List<WorksheetsDto>  newWeeklyWorksheets(@PathVariable String weeklyDate){
+        return nextWeekWorksheet.homeworkGenerator(weeklyDate);
     }
+
+    @GetMapping(path ="/generateWeeklyWorksheets/{weekDate}")
+    public @ResponseBody String generateWeeklyWorksheets(@PathVariable String weekDate){
+        return generateNewWorksheets.generateWeeklyWorksheet(weekDate);
+    }
+
 
     @RequestMapping(value = "/checkUserName", method = RequestMethod.POST)
     public @ResponseBody UserNameDto userName(@RequestBody UserNameDto userNameDto){
