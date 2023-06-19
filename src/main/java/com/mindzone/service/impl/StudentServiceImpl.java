@@ -257,6 +257,7 @@ public class StudentServiceImpl implements StudentService {
                 Worksheets worksheets = new Worksheets();
                 worksheets.setStudentId(sdto.getStudentId());
                 worksheets.setStudentName(sdto.getStudentName());
+                worksheets.setSubject(sdto.getSubject());
                 worksheets.setGrade(sdto.getGrade());
                 worksheets.setWeekDate(sdto.getWeekDate());
                 worksheets.setWorksheet(sdto.getWorksheet());

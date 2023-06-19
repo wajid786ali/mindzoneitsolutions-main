@@ -49,23 +49,28 @@ public class NextWeekWorskheetImpl implements  NextWeekWorksheet {
     return studentwork;
     }
     @Override
-     public  List<WorksheetsDto>  homeworkGenerator(String newWeekDate) {
+    public List<WorksheetsDto> homeworkGenerator(String newWeekDate,String subject){
         List<WorksheetsDto> newWSList= new ArrayList<>();
         try {
             ListFilesUtil listFilesUtil = new ListFilesUtil();
             boolean math = true;
-            directoryWindows = "C://sajid//MindZoneLearning//study Material//Math_Final";
+            if (subject.equalsIgnoreCase("Math")) {
+                directoryWindows = "C://sajid//MindZoneLearning//study Material//Math_Final";
+            } else if (subject.equalsIgnoreCase("English")){
+                directoryWindows = "C://sajid//MindZoneLearning//study Material//English";
+            }
             Map<String, ArrayList<String>> studentOldWorksheet= studentHistory();
 
             List<WorksheetsDto> wsList= listLastWeek();
-        //    Map<String, ArrayList<String>> wsMap= studentHistory();
 
             Map<String, String> fileNameMap = new HashMap<String, String>();
             fileNameMap = listFilesUtil.listFilesAndFilesSubDirectories(directoryWindows, fileNameMap);
 
             Map<String, WorksheetsDto> studentWorksheet = new HashMap<String, WorksheetsDto>();
             for (int i = 0; i < wsList.size(); i++) {
-                studentWorksheet.put(wsList.get(i).getStudentName(),wsList.get(i));
+                if (wsList.get(i).getSubject() != null && wsList.get(i).getSubject().contains(subject)) {
+                    studentWorksheet.put(wsList.get(i).getStudentName(), wsList.get(i));
+                }
             }
 
             List<StudentResponseDto> studentList =service.getAll();
@@ -76,11 +81,13 @@ public class NextWeekWorskheetImpl implements  NextWeekWorksheet {
                 WorksheetsDto wdto = new WorksheetsDto();
 
                 StudentResponseDto studentResponseDto = studentList.get(i);
-                    if (studentResponseDto.getStatus().equalsIgnoreCase("Active")) {
+                    if (studentResponseDto.getStatus().equalsIgnoreCase("Active") &&
+                            studentResponseDto.getSubjects().contains(subject)) {
                         String studentname = studentResponseDto.getStudentName();
                         wdto.setStudentName(studentname);
                         wdto.setGrade(studentResponseDto.getGrade());
                         wdto.setWeekDate(sqlDate);
+                        wdto.setSubject(subject);
                         WorksheetsDto filenameDto = studentWorksheet.get(studentname);
                         if (filenameDto != null) {
                             String filename = filenameDto.getWorksheet();

@@ -25,7 +25,7 @@ public class GenerateNewWorksheetsImpl implements  GenerateNewWorksheets {
     static String date = "12-15-2018";
     List<WorksheetsDto> worksheetsDtoList = new ArrayList<>();
 
-    public String generateWeeklyWorksheet(String weekDate) {
+    public String generateWeeklyWorksheet(String weekDate,String subject) {
 
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -54,6 +54,9 @@ public class GenerateNewWorksheetsImpl implements  GenerateNewWorksheets {
                 String studentName = worksheetsDto.getStudentName();
                 String worksheetPath = worksheetsDto.getWorksheet();
                 String extraWorksheetPath = worksheetsDto.getExtraWorksheet();
+                if (worksheetsDto.getSubject().equalsIgnoreCase("English")){
+                    directoryWindows = "C://sajid//MindZoneLearning//study Material//English";
+                }
                 String fullFileName = "";
                 if (worksheetPath != null) {
                      fullFileName = studentName + "_" + filecount + "_" + worksheetPath + "_" + weekDate + ".docx";

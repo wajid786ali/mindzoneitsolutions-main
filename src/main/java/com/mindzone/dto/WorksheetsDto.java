@@ -21,6 +21,7 @@ public class WorksheetsDto {
     String studentName;
     private Long studentId;
     String grade;
+    String subject;
     String worksheet;
     String worksheetPath;
     String worksheetStatus;

@@ -136,14 +136,14 @@ public class StudentController {
             return service.getStudentWorksheet(month);
         }
 
-    @GetMapping(path ="/newWeeklyWorksheets/{weeklyDate}")
-    public @ResponseBody List<WorksheetsDto>  newWeeklyWorksheets(@PathVariable String weeklyDate){
-        return nextWeekWorksheet.homeworkGenerator(weeklyDate);
+    @GetMapping(path ="/newWeeklyWorksheets/{weeklyDate}/{subject}")
+    public @ResponseBody List<WorksheetsDto>  newWeeklyWorksheets(@PathVariable String weeklyDate,@PathVariable String subject){
+        return nextWeekWorksheet.homeworkGenerator(weeklyDate,subject);
     }
 
-    @GetMapping(path ="/generateWeeklyWorksheets/{weekDate}")
-    public @ResponseBody String generateWeeklyWorksheets(@PathVariable String weekDate){
-        return generateNewWorksheets.generateWeeklyWorksheet(weekDate);
+    @GetMapping(path ="/generateWeeklyWorksheets/{weekDate}/{subject}")
+    public @ResponseBody String generateWeeklyWorksheets(@PathVariable String weekDate,@PathVariable String subject){
+        return generateNewWorksheets.generateWeeklyWorksheet(weekDate,subject);
     }
 
 

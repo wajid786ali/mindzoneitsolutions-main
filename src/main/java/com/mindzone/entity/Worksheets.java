@@ -27,9 +27,9 @@ public class Worksheets implements Serializable {
     String studentName;
     private Long studentId;
     String grade;
+    String subject;
     String worksheet;
     String extraWorksheet;
-
     String worksheetPath;
     String extraWorksheetPath;
     String month;
