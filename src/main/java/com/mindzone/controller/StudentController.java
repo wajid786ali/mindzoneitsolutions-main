@@ -44,6 +44,12 @@ public class StudentController {
          return service.addWeeklyWorksheet(sdto);
     }
 
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public @ResponseBody UserNameDto login(@RequestBody UserNameDto userNameDto){
+        UserNameDto udto=service.userName(userNameDto.getEmail(),userNameDto.getPassword());
+        return udto;
+    }
+
     @RequestMapping(value = "/addWorksheet", method = RequestMethod.POST)
     public @ResponseBody String  addWorksheet( @RequestBody WorksheetsDto sdto){
         return service.addWorksheet(sdto);
@@ -145,13 +151,6 @@ public class StudentController {
     public @ResponseBody String generateWeeklyWorksheets(@PathVariable String weekDate,@PathVariable String subject){
         return generateNewWorksheets.generateWeeklyWorksheet(weekDate,subject);
     }
-
-
-    @RequestMapping(value = "/checkUserName", method = RequestMethod.POST)
-    public @ResponseBody UserNameDto userName(@RequestBody UserNameDto userNameDto){
-        return service.userName(userNameDto.getEmail(),userNameDto.getPassword());
-    }
-
 
     @PutMapping
     public @ResponseBody StudentResponseDto update(@RequestBody StudentRequestDto studentRequestDto){
