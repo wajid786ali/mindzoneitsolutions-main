@@ -23,6 +23,9 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.2'
 	implementation 'io.hypersistence:hypersistence-utils-hibernate-55:3.3.0'
+	implementation 'org.apache.poi:poi-ooxml:5.2.3'
+
+
 
 }
 
