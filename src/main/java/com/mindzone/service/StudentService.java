@@ -48,7 +48,7 @@ public interface StudentService {
 
     List<StudentNotesDto> getStudentNotes(String status);
 
-    public UserNameDto userName(String email, String password);
+    public TeachersDto userName(String email, String password);
 
     void reminderDelete(String studentId);
 

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-06-21T17:10:17-0500",
+    date = "2023-06-22T23:52:10-0500",
     comments = "version: 1.5.3.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 19.0.1 (Oracle Corporation)"
 )
 @Component
@@ -22,9 +22,11 @@ public class TeachersMapperImpl implements TeachersMapper {
         Teachers.TeachersBuilder teachers = Teachers.builder();
 
         teachers.teacherName( d.getTeacherName() );
-        teachers.active( String.valueOf( d.isActive() ) );
+        teachers.active( d.isActive() );
         teachers.email( d.getEmail() );
         teachers.password( d.getPassword() );
+        teachers.center( d.getCenter() );
+        teachers.type( d.getType() );
         teachers.phoneNumber( d.getPhoneNumber() );
         teachers.address( d.getAddress() );
         teachers.startDate( d.getStartDate() );
@@ -42,11 +44,11 @@ public class TeachersMapperImpl implements TeachersMapper {
         TeachersDto.TeachersDtoBuilder<?, ?> teachersDto = TeachersDto.builder();
 
         teachersDto.teacherName( e.getTeacherName() );
-        if ( e.getActive() != null ) {
-            teachersDto.active( Boolean.parseBoolean( e.getActive() ) );
-        }
+        teachersDto.active( e.isActive() );
         teachersDto.email( e.getEmail() );
         teachersDto.password( e.getPassword() );
+        teachersDto.center( e.getCenter() );
+        teachersDto.type( e.getType() );
         teachersDto.phoneNumber( e.getPhoneNumber() );
         teachersDto.address( e.getAddress() );
         teachersDto.startDate( e.getStartDate() );

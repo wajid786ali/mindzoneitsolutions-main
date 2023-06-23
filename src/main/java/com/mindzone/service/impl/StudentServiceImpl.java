@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -202,14 +203,14 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
-    public UserNameDto userName(String email, String password) {
-        UserName userName = userNameRepository.findByEmail(email);
-        UserNameDto udto = new UserNameDto();
-        if (userName.getPassword().equalsIgnoreCase(password)) {
-            udto.setEmail(userName.getEmail());
-            udto.setName(userName.getName());
-            udto.setCenter(userName.getCenter());
-            udto.setStatus(userName.getStatus());
+    public TeachersDto userName(String email, String password) {
+        Teachers teachers = teachersRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("teacher not found by email:" + email));
+        TeachersDto udto = new TeachersDto();
+        if (teachers.getPassword().equalsIgnoreCase(password) && teachers.isActive()) {
+            udto.setEmail(teachers.getEmail());
+            udto.setTeacherName(teachers.getTeacherName());
+            udto.setCenter(teachers.getCenter());
+            udto.setType(teachers.getType());
         }
         return udto;
 
@@ -220,7 +221,7 @@ public class StudentServiceImpl implements StudentService {
     public void teacherDelete(String email) {
         try {
             Teachers teachers = teachersRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("teacher not found by email:" + email));
-            teachers.setActive("Deleted");
+            teachers.setActive(false);
             teachersRepository.save(teachers);
         } catch (UserNotFoundException ex) {
             log.error("Exception in delete method..!!", ex.getMessage());
@@ -231,10 +232,12 @@ public class StudentServiceImpl implements StudentService {
     public String addTeachers(TeachersDto sdto) {
         try {
             Teachers teachers = new Teachers();
-            teachers.setActive("Active");
+            teachers.setActive(true);
             teachers.setTeacherName(sdto.getTeacherName());
             teachers.setEmail(sdto.getEmail());
             teachers.setPassword(sdto.getPassword());
+            teachers.setCenter(sdto.getCenter());
+            teachers.setType(sdto.getType());
             teachers.setPhoneNumber(sdto.getPhoneNumber());
             teachers.setAddress(sdto.getAddress());
             teachers.setStartDate(sdto.getStartDate());
@@ -243,6 +246,7 @@ public class StudentServiceImpl implements StudentService {
             teachers.setInsrtDate(date);
             teachersRepository.save(teachers);
         } catch (Exception e) {
+            System.out.println(e.getStackTrace());
             return e.toString();
         }
         return "success";

@@ -45,9 +45,10 @@ public class StudentController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public @ResponseBody UserNameDto login(@RequestBody UserNameDto userNameDto){
-        UserNameDto udto=service.userName(userNameDto.getEmail(),userNameDto.getPassword());
-        return udto;
+    public @ResponseBody TeachersDto login(@RequestBody UserNameDto userNameDto){
+        TeachersDto unDTO=service.userName(userNameDto.getEmail(),userNameDto.getPassword());
+      //  return unDTO.getCenter()+"-"+unDTO.getStatus();
+        return unDTO;
     }
 
     @RequestMapping(value = "/addWorksheet", method = RequestMethod.POST)
