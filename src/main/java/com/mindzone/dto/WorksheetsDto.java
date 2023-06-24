@@ -30,6 +30,9 @@ public class WorksheetsDto {
     String worksheetNewSuggestedPath;
     String extraWorksheet;
     String extraWorksheetPath;
+    String worksheetPathAnswer;
+    String extraWorksheetPathAnswer;
+    String status;
     String month;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date weekDate;

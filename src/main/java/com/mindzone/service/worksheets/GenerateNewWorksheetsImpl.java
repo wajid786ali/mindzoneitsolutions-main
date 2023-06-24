@@ -33,9 +33,13 @@ public class GenerateNewWorksheetsImpl implements  GenerateNewWorksheets {
 
             java.sql.Date sqlDate = new Date(date.getTime());
             worksheetsDtoList = service.findByInsertDate(sqlDate);
-            filePath="C:\\today\\math";
-            String fileResult= createDirectory(filePath,weekDate);
-            message_return=fileResult;
+            filePath="C:\\MindZoneWorksheet\\"+subject;
+            String folderPath= createDirectory(filePath,weekDate);
+            if (folderPath.equalsIgnoreCase("Error")){
+                return "Folder Creating Error";
+            }
+            filePath=folderPath;
+            message_return=folderPath;
             String directoryWindows = "C://sajid//MindZoneLearning//study Material//Math_Final";
             ListFilesUtil listFilesUtil = new ListFilesUtil();
             Map<String, String> fileNameMap = new HashMap<String, String>();
@@ -43,7 +47,7 @@ public class GenerateNewWorksheetsImpl implements  GenerateNewWorksheets {
             String excelFilePath = null;
             String filecount = "1";
             boolean math = true;
-            boolean generateAnswer = false;
+            boolean generateAnswer = true;
             boolean generateWorksheet = true;
 
             fileNameMap = listFilesUtil.listFilesAndFilesSubDirectories(directoryWindows, fileNameMap);
@@ -61,18 +65,22 @@ public class GenerateNewWorksheetsImpl implements  GenerateNewWorksheets {
                 if (worksheetPath != null) {
                      fullFileName = studentName + "_" + filecount + "_" + worksheetPath + "_" + weekDate + ".docx";
                     GenerateFile(worksheetsDto,fileNameMap, errorFile, studentName, weekDate, weekDate, worksheetPath, false, extraWorksheetPath, math, "" + filecount,fullFileName);
-                    worksheetsDto.setWorksheetPath(fullFileName);
+                    worksheetsDto.setWorksheetPath(folderPath+"/"+fullFileName);
                     if (generateAnswer) {
+                        fullFileName = studentName + "_" + filecount + "_" + worksheetPath + "_" + weekDate + "_Answer.docx";
                         GenerateFile(worksheetsDto,fileNameMap, errorFile, studentName, weekDate, weekDate, worksheetPath + "_Answer", true, extraWorksheetPath, math, "" + filecount,fullFileName);
+                        worksheetsDto.setWorksheetPathAnswer(folderPath+"/"+fullFileName);
                     }
                 }
 
                 if (extraWorksheetPath != null) {
                     fullFileName = studentName + "_" + filecount + "_" + extraWorksheetPath + "_" + weekDate + ".docx";
                     GenerateFile(worksheetsDto,fileNameMap, errorFile, studentName, weekDate, weekDate, extraWorksheetPath, true, extraWorksheetPath, math, filecount + "_0",fullFileName);
-                    worksheetsDto.setExtraWorksheetPath(fullFileName);
-                    if (generateAnswer) {
+                    worksheetsDto.setExtraWorksheetPath(folderPath+"/"+fullFileName);
+                    if (generateAnswer && subject.equalsIgnoreCase("English")) {
+                        fullFileName = studentName + "_" + filecount + "_" + extraWorksheetPath + "_" + weekDate + "_Answer.docx";
                         GenerateFile(worksheetsDto,fileNameMap, errorFile, studentName, weekDate, weekDate, extraWorksheetPath + "_Answer", true, extraWorksheetPath, math, filecount + "_0",fullFileName);
+                        worksheetsDto.setExtraWorksheetPathAnswer(folderPath+"/"+fullFileName);
                     }
                 }
                 service.updateWeeklyWorksheet(worksheetsDto);
@@ -92,10 +100,10 @@ public class GenerateNewWorksheetsImpl implements  GenerateNewWorksheets {
             WordReplaceTextEnglish doc= new WordReplaceTextEnglish();
             WordReplaceText doc1= new WordReplaceText();
 
-            boolean flag=doc.processRequest(generateFileName, filePath + "//" + fullFileName,studentName,date_print);
+            boolean flag=doc.processRequest(generateFileName, filePath + "/" + fullFileName,studentName,date_print);
          //   System.out.println(fileNameMap.get(filename)+", c://temp//"+studentName+"_"+filename+"_"+date+".docx, "+studentName+","+date);
             if (!flag){
-                flag=doc1.processRequest(generateFileName,filePath+"//"+fullFileName,studentName,date_print);
+                flag=doc1.processRequest(generateFileName,filePath+"/"+fullFileName,studentName,date_print);
             }
             if (!flag){
                 errorFile.add(studentName+"-flag--"+filename);
@@ -107,14 +115,18 @@ public class GenerateNewWorksheetsImpl implements  GenerateNewWorksheets {
     }
 
     private  String createDirectory (String filePath,String directory) throws IOException {
-        String strPath = filePath+"//"+directory;
+        String strPath = filePath+"/"+directory;
         File dir = new File(strPath);
-        boolean isDirCreated = dir.mkdir();
+        boolean isDir = dir.isDirectory();
+        boolean isDirCreated =true;
+        if (!isDir){
+            isDirCreated = dir.mkdir();
+        }
 
         if(isDirCreated)
-            return  "true";
+            return  strPath;
         else
-        return "false";
+        return "Error";
     }
 }
 

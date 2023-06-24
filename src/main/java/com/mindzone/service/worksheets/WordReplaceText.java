@@ -27,13 +27,7 @@ public class WordReplaceText {
 				  flag= setHeader(xdoc, "Name", "Name: "+name);
 				  System.out.println(name+" --Name-- flag "+flag);
 				boolean  flag1  =setHeader(xdoc, "Date", "Date: "+date);
-				  System.out.println("Date-- flag "+flag);
-				 //if (flag && flag1) {
-					 System.out.print("====================creating file==================");
 				 saveDocument(xdoc, OUTPUT_FILE);
-				 //} else{
-				//	 //saveDocument(xdoc, OUTPUT_FILE+"------.docx");
-				// }
 			     } catch(Exception ex) {
 				ex.printStackTrace();
 			     }
@@ -118,11 +112,7 @@ public class WordReplaceText {
 	    
 	    
 	    private void saveDocument(XWPFDocument doc, String file) {
-	    	
-	    	//XWPFDocument docx = new XWPFDocument(POIXMLDocument.openPackage(lowerFilePath));
-            System.out.println("================***=="+doc.getProperties().getExtendedProperties().getUnderlyingProperties().getPages());
-            
-            
+
 	        try (FileOutputStream out = new FileOutputStream(file)) {
 	            doc.write(out);
 	        } catch (IOException e) {

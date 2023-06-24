@@ -88,6 +88,7 @@ public class NextWeekWorskheetImpl implements  NextWeekWorksheet {
                         wdto.setGrade(studentResponseDto.getGrade());
                         wdto.setWeekDate(sqlDate);
                         wdto.setSubject(subject);
+                        wdto.setStatus("New");
                         WorksheetsDto filenameDto = studentWorksheet.get(studentname);
                         if (filenameDto != null) {
                             String filename = filenameDto.getWorksheet();

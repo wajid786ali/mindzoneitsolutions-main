@@ -266,6 +266,7 @@ public class StudentServiceImpl implements StudentService {
                 worksheets.setWeekDate(sdto.getWeekDate());
                 worksheets.setWorksheet(sdto.getWorksheet());
                 worksheets.setExtraWorksheet(sdto.getExtraWorksheet());
+                worksheets.setStatus("New");
                 long millis = System.currentTimeMillis();
                 java.sql.Date date = new java.sql.Date(millis);
                 worksheets.setInsertDate(date);
@@ -286,6 +287,9 @@ public class StudentServiceImpl implements StudentService {
                 Worksheets worksheets = worksheetsRepository.findById(worksheetsDto.getId()).orElseThrow(() -> new UserNotFoundException("worksheet not found by id:" + worksheetsDto.getId()));
                 worksheets.setWorksheetPath(worksheetsDto.getWorksheetPath());
                 worksheets.setExtraWorksheetPath(worksheetsDto.getExtraWorksheetPath());
+                worksheets.setWorksheetPathAnswer(worksheetsDto.getWorksheetPathAnswer());
+                worksheets.setExtraWorksheetPathAnswer(worksheetsDto.getExtraWorksheetPathAnswer());
+                worksheets.setStatus("Print");
                 long millis = System.currentTimeMillis();
                 java.sql.Date date = new java.sql.Date(millis);
                 worksheets.setUpdateDate(date);

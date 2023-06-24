@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-06-22T23:52:10-0500",
+    date = "2023-06-24T14:14:11-0500",
     comments = "version: 1.5.3.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 19.0.1 (Oracle Corporation)"
 )
 @Component
@@ -30,7 +30,10 @@ public class WorksheetsMapperImpl implements WorksheetsMapper {
         worksheets.extraWorksheet( d.getExtraWorksheet() );
         worksheets.worksheetPath( d.getWorksheetPath() );
         worksheets.extraWorksheetPath( d.getExtraWorksheetPath() );
+        worksheets.worksheetPathAnswer( d.getWorksheetPathAnswer() );
+        worksheets.extraWorksheetPathAnswer( d.getExtraWorksheetPathAnswer() );
         worksheets.month( d.getMonth() );
+        worksheets.status( d.getStatus() );
         worksheets.weekDate( d.getWeekDate() );
 
         return worksheets.build();
@@ -53,6 +56,9 @@ public class WorksheetsMapperImpl implements WorksheetsMapper {
         worksheetsDto.worksheetPath( e.getWorksheetPath() );
         worksheetsDto.extraWorksheet( e.getExtraWorksheet() );
         worksheetsDto.extraWorksheetPath( e.getExtraWorksheetPath() );
+        worksheetsDto.worksheetPathAnswer( e.getWorksheetPathAnswer() );
+        worksheetsDto.extraWorksheetPathAnswer( e.getExtraWorksheetPathAnswer() );
+        worksheetsDto.status( e.getStatus() );
         worksheetsDto.month( e.getMonth() );
         worksheetsDto.weekDate( e.getWeekDate() );
 
