@@ -33,7 +33,7 @@ public class GenerateNewWorksheetsImpl implements  GenerateNewWorksheets {
 
             java.sql.Date sqlDate = new Date(date.getTime());
             worksheetsDtoList = service.findByInsertDate(sqlDate);
-            filePath="C:\\MindZoneWorksheet\\"+subject;
+            filePath="..";
             String folderPath= createDirectory(filePath,weekDate);
             if (folderPath.equalsIgnoreCase("Error")){
                 return "Folder Creating Error";
@@ -122,7 +122,7 @@ public class GenerateNewWorksheetsImpl implements  GenerateNewWorksheets {
         if (!isDir){
             isDirCreated = dir.mkdir();
         }
-
+    System.out.println(dir.getAbsolutePath());
         if(isDirCreated)
             return  strPath;
         else
