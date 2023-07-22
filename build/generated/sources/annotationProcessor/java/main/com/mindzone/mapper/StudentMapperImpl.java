@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-06-24T17:54:19-0500",
-    comments = "version: 1.5.3.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 19.0.1 (Oracle Corporation)"
+    date = "2023-07-22T09:23:20-0500",
+    comments = "version: 1.5.3.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 17.0.5 (JetBrains s.r.o.)"
 )
 @Component
 public class StudentMapperImpl implements StudentMapper {
@@ -44,6 +44,7 @@ public class StudentMapperImpl implements StudentMapper {
         if ( d.getStatus() != null ) {
             students.status( d.getStatus().name() );
         }
+        students.amount( d.getAmount() );
 
         return students.build();
     }
@@ -74,6 +75,7 @@ public class StudentMapperImpl implements StudentMapper {
         studentResponseDto.startDate( e.getStartDate() );
         studentResponseDto.endDate( e.getEndDate() );
         studentResponseDto.status( e.getStatus() );
+        studentResponseDto.amount( e.getAmount() );
 
         return studentResponseDto.build();
     }

@@ -91,6 +91,7 @@ public class StudentServiceImpl implements StudentService {
                 foundStudent.setStartDate(student.getStartDate());
                 foundStudent.setEndDate(student.getEndDate());
                 foundStudent.setStatus(student.getStatus());
+                foundStudent.setAmount(student.getAmount());
                 foundStudent.setSubjects(student.getSubjects());
                 foundStudent.setDays(student.getDays());
                 savedUser = repository.save(foundStudent);
@@ -316,6 +317,7 @@ public class StudentServiceImpl implements StudentService {
             worksheets.setStudentId(sdto.getStudentId());
             worksheets.setStudentName(sdto.getStudentName());
             worksheets.setGrade(sdto.getGrade());
+            worksheets.setSubject(sdto.getSubject());
             worksheets.setWeekDate(sdto.getWeekDate());
             worksheets.setWorksheet(sdto.getWorksheet());
             worksheets.setExtraWorksheet(sdto.getExtraWorksheet());

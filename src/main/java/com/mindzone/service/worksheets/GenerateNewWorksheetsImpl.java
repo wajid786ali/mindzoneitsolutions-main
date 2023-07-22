@@ -33,7 +33,7 @@ public class GenerateNewWorksheetsImpl implements  GenerateNewWorksheets {
 
             java.sql.Date sqlDate = new Date(date.getTime());
             worksheetsDtoList = service.findByInsertDate(sqlDate);
-            filePath="..";
+            filePath="../"+subject;
             String folderPath= createDirectory(filePath,weekDate);
             if (folderPath.equalsIgnoreCase("Error")){
                 return "Folder Creating Error";
@@ -63,24 +63,24 @@ public class GenerateNewWorksheetsImpl implements  GenerateNewWorksheets {
                 }
                 String fullFileName = "";
                 if (worksheetPath != null) {
-                     fullFileName = studentName + "_" + filecount + "_" + worksheetPath + "_" + weekDate + ".docx";
+                     fullFileName = studentName + "_" + filecount + "_" + worksheetPath + "_DT_" + weekDate + ".docx";
                     GenerateFile(worksheetsDto,fileNameMap, errorFile, studentName, weekDate, weekDate, worksheetPath, false, extraWorksheetPath, math, "" + filecount,fullFileName);
-                    worksheetsDto.setWorksheetPath(folderPath+"/"+fullFileName);
+                    worksheetsDto.setWorksheetPath(fullFileName);
                     if (generateAnswer) {
-                        fullFileName = studentName + "_" + filecount + "_" + worksheetPath + "_" + weekDate + "_Answer.docx";
+                        fullFileName = studentName + "_" + filecount + "_" + worksheetPath + "_DT_" + weekDate + "_Answer.docx";
                         GenerateFile(worksheetsDto,fileNameMap, errorFile, studentName, weekDate, weekDate, worksheetPath + "_Answer", true, extraWorksheetPath, math, "" + filecount,fullFileName);
-                        worksheetsDto.setWorksheetPathAnswer(folderPath+"/"+fullFileName);
+                        worksheetsDto.setWorksheetPathAnswer(fullFileName);
                     }
                 }
 
                 if (extraWorksheetPath != null) {
-                    fullFileName = studentName + "_" + filecount + "_" + extraWorksheetPath + "_" + weekDate + ".docx";
+                    fullFileName = studentName + "_" + filecount + "_" + extraWorksheetPath + "_DT_" + weekDate + ".docx";
                     GenerateFile(worksheetsDto,fileNameMap, errorFile, studentName, weekDate, weekDate, extraWorksheetPath, true, extraWorksheetPath, math, filecount + "_0",fullFileName);
-                    worksheetsDto.setExtraWorksheetPath(folderPath+"/"+fullFileName);
+                    worksheetsDto.setExtraWorksheetPath(fullFileName);
                     if (generateAnswer && subject.equalsIgnoreCase("English")) {
-                        fullFileName = studentName + "_" + filecount + "_" + extraWorksheetPath + "_" + weekDate + "_Answer.docx";
+                        fullFileName = studentName + "_" + filecount + "_" + extraWorksheetPath + "_DT_" + weekDate + "_Answer.docx";
                         GenerateFile(worksheetsDto,fileNameMap, errorFile, studentName, weekDate, weekDate, extraWorksheetPath + "_Answer", true, extraWorksheetPath, math, filecount + "_0",fullFileName);
-                        worksheetsDto.setExtraWorksheetPathAnswer(folderPath+"/"+fullFileName);
+                        worksheetsDto.setExtraWorksheetPathAnswer(fullFileName);
                     }
                 }
                 service.updateWeeklyWorksheet(worksheetsDto);
