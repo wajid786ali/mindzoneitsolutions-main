@@ -1,7 +1,6 @@
 package com.mindzone.controller;
 
 import com.mindzone.dto.*;
-import com.mindzone.service.GoogleFileProcess;
 import com.mindzone.service.StudentService;
 import com.mindzone.service.worksheets.GenerateNewWorksheets;
 import com.mindzone.service.worksheets.NextWeekWorksheet;
@@ -13,7 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import static com.mindzone.utils.MZConstants.STUDENTS;
 import static com.mindzone.utils.MZConstants.URI;
@@ -26,9 +24,7 @@ public class StudentController {
     @Autowired
     private StudentService service;
 
-    @Autowired
-    private GoogleFileProcess googleFileProcess;
-    @Autowired
+     @Autowired
     private NextWeekWorksheet nextWeekWorksheet;
 
     @Autowired
@@ -37,15 +33,6 @@ public class StudentController {
     @PostMapping
     public @ResponseBody StudentResponseDto create(@RequestBody StudentRequestDto studentRequestDto){
     return service.create(studentRequestDto);
-    }
-
-    @GetMapping(path ="/saveFile")
-    public @ResponseBody String saveFile(){
-        googleFileProcess.saveGoodleDriveFile();
-        String accessToken = "";
-
-
-        return "good";
     }
 
     @RequestMapping(value = "/addFeedBack", method = RequestMethod.POST)
