@@ -178,6 +178,13 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public List<WorksheetsDto> getStudentWorksheetByStatus(String status) {
+        List<Worksheets> studentWorksheets = worksheetsRepository.findByStatus(status);
+        return studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
+
+    }
+
+    @Override
     public List<TeachersDto> getListTeachers() {
         List<Teachers> teachersList = teachersRepository.findAll(Sort.by(Sort.Direction.ASC, "teacherName"));
         return teachersList.stream().map(tr -> teachersMapper.toDto(tr)).collect(Collectors.toList());
@@ -320,6 +327,7 @@ public class StudentServiceImpl implements StudentService {
             worksheets.setSubject(sdto.getSubject());
             worksheets.setWeekDate(sdto.getWeekDate());
             worksheets.setWorksheet(sdto.getWorksheet());
+            worksheets.setStatus("New");
             worksheets.setExtraWorksheet(sdto.getExtraWorksheet());
             long millis = System.currentTimeMillis();
             java.sql.Date date = new java.sql.Date(millis);

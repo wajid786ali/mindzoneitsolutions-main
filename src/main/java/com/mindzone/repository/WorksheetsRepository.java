@@ -16,6 +16,7 @@ import java.util.UUID;
 public interface WorksheetsRepository extends JpaRepository<Worksheets, Integer> {
     List<Worksheets> findByStudentId(Long studentId);
     List<Worksheets> findByMonth(String month);
+    List<Worksheets> findByStatus(String status);
     Optional<Worksheets> findById(UUID id);
     List<Worksheets> findByWeekDate(Date weekDate);
 

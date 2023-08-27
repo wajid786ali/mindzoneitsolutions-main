@@ -25,21 +25,11 @@ public class GenerateNewWorksheetsImpl implements  GenerateNewWorksheets {
     static String date = "12-15-2018";
     List<WorksheetsDto> worksheetsDtoList = new ArrayList<>();
 
-    public String generateWeeklyWorksheet(String weekDate,String subject) {
+
+    public String generateWeeklyWorksheet() {
 
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            java.util.Date date = sdf.parse(weekDate);
 
-            java.sql.Date sqlDate = new Date(date.getTime());
-            worksheetsDtoList = service.findByInsertDate(sqlDate);
-            filePath="../"+subject;
-            String folderPath= createDirectory(filePath,weekDate);
-            if (folderPath.equalsIgnoreCase("Error")){
-                return "Folder Creating Error";
-            }
-            filePath=folderPath;
-            message_return=folderPath;
             String directoryWindows = "C://sajid//MindZoneLearning//study Material//Math_Final";
             ListFilesUtil listFilesUtil = new ListFilesUtil();
             Map<String, String> fileNameMap = new HashMap<String, String>();
@@ -51,9 +41,26 @@ public class GenerateNewWorksheetsImpl implements  GenerateNewWorksheets {
             boolean generateWorksheet = true;
 
             fileNameMap = listFilesUtil.listFilesAndFilesSubDirectories(directoryWindows, fileNameMap);
-
+            worksheetsDtoList = service.getStudentWorksheetByStatus("New");
             for (int i = 0; i < worksheetsDtoList.size(); i++) {
                 WorksheetsDto worksheetsDto = worksheetsDtoList.get(i);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String weekDate=worksheetsDto.getWeekDate().toString();
+                String subject=worksheetsDto.getSubject();
+                java.util.Date date = sdf.parse(weekDate);
+
+                java.sql.Date sqlDate = new Date(date.getTime());
+
+
+                //  worksheetsDtoList = service.findByInsertDate(sqlDate);
+                filePath="../"+subject;
+                String folderPath= createDirectory(filePath,worksheetsDto.getWeekDate().toString());
+                if (folderPath.equalsIgnoreCase("Error")){
+                    return "Folder Creating Error";
+                }
+                filePath=folderPath;
+                message_return=folderPath;
+
 
                 String studentName = worksheetsDto.getStudentName();
                 String worksheetPath = worksheetsDto.getWorksheet();

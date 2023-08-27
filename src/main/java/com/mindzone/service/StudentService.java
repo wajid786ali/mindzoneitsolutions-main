@@ -34,6 +34,8 @@ public interface StudentService {
 
     public List<WorksheetsDto> getStudentWorksheet(String month);
 
+    public List<WorksheetsDto> getStudentWorksheetByStatus(String status);
+
     public List<WorksheetsDto> findByInsertDate(Date insertDate);
 
     public List<WorksheetsDto>  findLastWeekyWorksheet();
