@@ -62,12 +62,11 @@ public class StudentController {
     }
 
 
-    @DeleteMapping(path ="/deleteTeachers/{email}")
-    public void deleteTeachers(@PathVariable String email){
 
-        service.teacherDelete(email);
+    @GetMapping(value ="/deleteTeachers/{email}")
+    public void  deleteTeachers(@PathVariable String email){
+         service.teacherDelete(email);
     }
-
 
     @GetMapping(path ="/listTeachers")
     public @ResponseBody List<TeachersDto> getListTeachers(){

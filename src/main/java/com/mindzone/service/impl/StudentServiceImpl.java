@@ -231,18 +231,23 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
-    public void teacherDelete(String email) {
+    public String teacherDelete(String email) {
         try {
+
             List<Teachers> teachersList = teachersRepository.findAll(Sort.by(Sort.Direction.ASC, "teacherName"));
-            for (int i=0;i< teachersList.size();i++) {
-                Teachers teachers= teachersList.get(i);
-                teachers.setActive(false);
-                teachersRepository.save(teachers);
-                break;
+            for (int i = 0; i < teachersList.size(); i++) {
+                Teachers teacher = teachersList.get(i);
+                if (teacher.getEmail().equalsIgnoreCase(email)) {
+                    teacher.setActive(false);
+                    teachersRepository.save(teacher);
+                    return "Sucessfull";
+                }
             }
         } catch (UserNotFoundException ex) {
             log.error("Exception in delete method..!!", ex.getMessage());
+            return "Error"+ex.getMessage();
         }
+        return "Error";
     }
 
     @Override
@@ -250,7 +255,7 @@ public class StudentServiceImpl implements StudentService {
         List<Teachers> teachersList = teachersRepository.findAll(Sort.by(Sort.Direction.ASC, "teacherName"));
         for (int i = 0; i < teachersList.size(); i++) {
             Teachers teacher = teachersList.get(i);
-            if (teacher == null && teacher.getEmail().equalsIgnoreCase(sdto.getEmail())) {
+            if (teacher.getEmail().equalsIgnoreCase(sdto.getEmail())) {
                 return "Teachers already registers";
             }
         }

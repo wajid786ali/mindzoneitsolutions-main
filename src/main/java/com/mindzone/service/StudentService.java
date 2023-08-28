@@ -54,5 +54,5 @@ public interface StudentService {
 
     void reminderDelete(String studentId);
 
-    void teacherDelete(String email);
+    String teacherDelete(String email);
 }
