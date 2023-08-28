@@ -24,6 +24,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public void download(String fileName) {
+        String[] fileAnswer=fileName.split("_Answer");
         String[] fileParts=fileName.split("_DT_");
         String[] strDate=fileParts[1].split("\\.");
         try {

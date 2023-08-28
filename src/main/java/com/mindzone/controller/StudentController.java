@@ -61,6 +61,20 @@ public class StudentController {
         return service.addTeachers(sdto);
     }
 
+
+    @DeleteMapping(path ="/deleteTeachers/{email}")
+    public void deleteTeachers(@PathVariable String email){
+
+        service.teacherDelete(email);
+    }
+
+
+    @GetMapping(path ="/listTeachers")
+    public @ResponseBody List<TeachersDto> getListTeachers(){
+        return service.getListTeachers();
+    }
+
+
     @RequestMapping(value = "/addStudentNotes", method = RequestMethod.POST)
     public @ResponseBody String  addStudentNotes( @RequestBody StudentNotesDto sdto){
         return service.addStudentNotes(sdto);
@@ -80,16 +94,6 @@ public class StudentController {
         service.reminderDelete(studentId);
     }
 
-    @DeleteMapping(path ="/deleteTeachers/{email}")
-    public void deleteTeachers(@PathVariable String email){
-        service.teacherDelete(email);
-    }
-
-
-    @GetMapping(path ="/listTeachers")
-    public @ResponseBody List<TeachersDto> getListTeachers(){
-        return service.getListTeachers();
-    }
     @GetMapping(path ="/listFeedBack")
     public @ResponseBody List<StudentFeedBackDto> getFeedback(){
         return service.getFeedBacks();

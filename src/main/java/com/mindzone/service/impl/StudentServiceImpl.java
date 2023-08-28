@@ -212,13 +212,18 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public TeachersDto userName(String email, String password) {
-        Teachers teachers = teachersRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("teacher not found by email:" + email));
+        List<Teachers> teachersList = teachersRepository.findAll(Sort.by(Sort.Direction.ASC, "teacherName"));
         TeachersDto udto = new TeachersDto();
-        if (teachers.getPassword().equalsIgnoreCase(password) && teachers.isActive()) {
-            udto.setEmail(teachers.getEmail());
-            udto.setTeacherName(teachers.getTeacherName());
-            udto.setCenter(teachers.getCenter());
-            udto.setType(teachers.getType());
+        for (int i=0;i< teachersList.size();i++) {
+            Teachers teachers= teachersList.get(i);
+
+            if (teachers.getPassword().equalsIgnoreCase(password) && teachers.isActive()) {
+                udto.setEmail(teachers.getEmail());
+                udto.setTeacherName(teachers.getTeacherName());
+                udto.setCenter(teachers.getCenter());
+                udto.setType(teachers.getType());
+                break;
+            }
         }
         return udto;
 
@@ -228,9 +233,13 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void teacherDelete(String email) {
         try {
-            Teachers teachers = teachersRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("teacher not found by email:" + email));
-            teachers.setActive(false);
-            teachersRepository.save(teachers);
+            List<Teachers> teachersList = teachersRepository.findAll(Sort.by(Sort.Direction.ASC, "teacherName"));
+            for (int i=0;i< teachersList.size();i++) {
+                Teachers teachers= teachersList.get(i);
+                teachers.setActive(false);
+                teachersRepository.save(teachers);
+                break;
+            }
         } catch (UserNotFoundException ex) {
             log.error("Exception in delete method..!!", ex.getMessage());
         }
@@ -238,26 +247,33 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public String addTeachers(TeachersDto sdto) {
-        try {
-            Teachers teachers = new Teachers();
-            teachers.setActive(true);
-            teachers.setTeacherName(sdto.getTeacherName());
-            teachers.setEmail(sdto.getEmail());
-            teachers.setPassword(sdto.getPassword());
-            teachers.setCenter(sdto.getCenter());
-            teachers.setType(sdto.getType());
-            teachers.setPhoneNumber(sdto.getPhoneNumber());
-            teachers.setAddress(sdto.getAddress());
-            teachers.setStartDate(sdto.getStartDate());
-            long millis = System.currentTimeMillis();
-            java.sql.Date date = new java.sql.Date(millis);
-            teachers.setInsrtDate(date);
-            teachersRepository.save(teachers);
-        } catch (Exception e) {
-            System.out.println(e.getStackTrace());
-            return e.toString();
+        List<Teachers> teachersList = teachersRepository.findAll(Sort.by(Sort.Direction.ASC, "teacherName"));
+        for (int i = 0; i < teachersList.size(); i++) {
+            Teachers teacher = teachersList.get(i);
+            if (teacher == null && teacher.getEmail().equalsIgnoreCase(sdto.getEmail())) {
+                return "Teachers already registers";
+            }
         }
-        return "success";
+                try {
+
+                    Teachers teachers = new Teachers();
+                    teachers.setActive(true);
+                    teachers.setTeacherName(sdto.getTeacherName());
+                    teachers.setEmail(sdto.getEmail());
+                    teachers.setPassword(sdto.getPassword());
+                    teachers.setCenter(sdto.getCenter());
+                    teachers.setType(sdto.getType());
+                    teachers.setPhoneNumber(sdto.getPhoneNumber());
+                    teachers.setAddress(sdto.getAddress());
+                    teachers.setStartDate(sdto.getStartDate());
+                    long millis = System.currentTimeMillis();
+                    java.sql.Date date = new java.sql.Date(millis);
+                    teachers.setInsrtDate(date);
+                    teachersRepository.save(teachers);
+                } catch (Exception e) {
+                    return e.toString();
+                }
+                 return "success";
     }
 
     @Override
