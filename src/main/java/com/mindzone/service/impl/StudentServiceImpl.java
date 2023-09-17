@@ -94,6 +94,7 @@ public class StudentServiceImpl implements StudentService {
                 foundStudent.setAmount(student.getAmount());
                 foundStudent.setSubjects(student.getSubjects());
                 foundStudent.setDays(student.getDays());
+                foundStudent.setCenter(student.getCenter());
                 savedUser = repository.save(foundStudent);
             }
         } catch (Exception ex) {
@@ -216,8 +217,9 @@ public class StudentServiceImpl implements StudentService {
         TeachersDto udto = new TeachersDto();
         for (int i=0;i< teachersList.size();i++) {
             Teachers teachers= teachersList.get(i);
-
-            if (teachers.getPassword().equalsIgnoreCase(password) && teachers.isActive()) {
+            String cemail=teachers.getEmail();
+            String cpass=teachers.getPassword();
+            if (cemail.equalsIgnoreCase(email) && cpass.equalsIgnoreCase(password) && teachers.isActive()) {
                 udto.setEmail(teachers.getEmail());
                 udto.setTeacherName(teachers.getTeacherName());
                 udto.setCenter(teachers.getCenter());

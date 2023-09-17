@@ -36,5 +36,6 @@ public class StudentRequestDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date endDate;
     private StatusEnum status;
+    private String center;
     private BigDecimal amount;
 }

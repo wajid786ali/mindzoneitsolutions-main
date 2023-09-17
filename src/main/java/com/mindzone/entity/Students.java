@@ -48,5 +48,6 @@ public class Students implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date endDate;
     private String status;
+    private String center;
     private BigDecimal amount;
 }
