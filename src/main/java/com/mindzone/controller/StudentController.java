@@ -78,14 +78,14 @@ public class StudentController {
     public @ResponseBody String  addStudentNotes( @RequestBody StudentNotesDto sdto){
         return service.addStudentNotes(sdto);
     }
-    @GetMapping(path ="/listRemindersNew")
-    public @ResponseBody List<StudentNotesDto> getListRemindersNew(){
-        return service.getStudentNotes("New");
+    @GetMapping(path ="/listRemindersNew/{center}")
+    public @ResponseBody List<StudentNotesDto> getListRemindersNew(@PathVariable String center){
+        return service.getStudentNotes("New",center);
     }
 
-    @GetMapping(path ="/listRemindersResolve")
-    public @ResponseBody List<StudentNotesDto> getListRemindersResolved(){
-        return service.getStudentNotes("Resolved");
+    @GetMapping(path ="/listRemindersResolve/{center}")
+    public @ResponseBody List<StudentNotesDto> getListRemindersResolved(@PathVariable String center){
+        return service.getStudentNotes("Resolved",center);
     }
 
     @DeleteMapping(path ="/reminderDelete/{studentId}")
@@ -146,9 +146,9 @@ public class StudentController {
             return service.getStudentWorksheet(month);
         }
 
-    @GetMapping(path ="/newWeeklyWorksheets/{weeklyDate}/{subject}")
-    public @ResponseBody List<WorksheetsDto>  newWeeklyWorksheets(@PathVariable String weeklyDate,@PathVariable String subject){
-        return nextWeekWorksheet.homeworkGenerator(weeklyDate,subject);
+    @GetMapping(path ="/newWeeklyWorksheets/{weeklyDate}/{subject}/{center}")
+    public @ResponseBody List<WorksheetsDto>  newWeeklyWorksheets(@PathVariable String weeklyDate,@PathVariable String subject,@PathVariable String center){
+        return nextWeekWorksheet.homeworkGenerator(weeklyDate,subject,center);
     }
 
     /*
@@ -171,9 +171,9 @@ public class StudentController {
     public @ResponseBody StudentResponseDto get(@PathVariable long studentId){
         return service.get(studentId);
     }
-    @GetMapping(path ="/all")
-    public @ResponseBody List<StudentResponseDto> get(){
-        return service.getAll();
+    @GetMapping(path ="/all/{center}")
+    public @ResponseBody List<StudentResponseDto> get(@PathVariable String center){
+        return service.getAll(center);
     }
 
     @DeleteMapping(path ="/{studentId}")

@@ -122,8 +122,8 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
-    public List<StudentResponseDto> getAll() {
-        List<Students> students = repository.findAll(Sort.by(Sort.Direction.ASC, "studentId"));
+    public  List<StudentResponseDto> getAll(String center){
+        List<Students> students = repository.findByCenter(center);
         return students.stream().map(student -> studentMapper.toDto(student)).collect(Collectors.toList());
     }
 
@@ -193,8 +193,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentNotesDto> getStudentNotes(String status) {
-        List<StudentNotes> studentNotes = studentNotesRepository.findByResolved(status);
+    public List<StudentNotesDto> getStudentNotes(String status,String center) {
+        List<StudentNotes> studentNotes = studentNotesRepository.findByResolvedAndCenter(status,center);
         return studentNotes.stream().map(wsm -> studentNotesMapper.toDto(wsm)).collect(Collectors.toList());
     }
 

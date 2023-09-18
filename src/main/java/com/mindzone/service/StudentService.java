@@ -17,7 +17,7 @@ public interface StudentService {
 
     StudentResponseDto get(long userId);
 
-    List<StudentResponseDto> getAll();
+    List<StudentResponseDto> getAll(String center);
 
     public List<StudentFeedBackDto> getFeedBacks();
 
@@ -48,7 +48,7 @@ public interface StudentService {
 
     public List<WorksheetsDto> getListNextWeekWorksheet();
 
-    List<StudentNotesDto> getStudentNotes(String status);
+    List<StudentNotesDto> getStudentNotes(String status,String center);
 
     public TeachersDto userName(String email, String password);
 

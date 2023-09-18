@@ -34,5 +34,6 @@ public class StudentFeedBack implements Serializable {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date insertDate;
+    private String center;
 
 }

@@ -49,7 +49,7 @@ public class NextWeekWorskheetImpl implements  NextWeekWorksheet {
     return studentwork;
     }
     @Override
-    public List<WorksheetsDto> homeworkGenerator(String newWeekDate,String subject){
+    public List<WorksheetsDto> homeworkGenerator(String newWeekDate,String subject,String center){
         List<WorksheetsDto> newWSList= new ArrayList<>();
         try {
             ListFilesUtil listFilesUtil = new ListFilesUtil();
@@ -73,7 +73,7 @@ public class NextWeekWorskheetImpl implements  NextWeekWorksheet {
                 }
             }
 
-            List<StudentResponseDto> studentList =service.getAll();
+            List<StudentResponseDto> studentList =service.getAll(center);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             java.util.Date date = sdf.parse(newWeekDate);
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());

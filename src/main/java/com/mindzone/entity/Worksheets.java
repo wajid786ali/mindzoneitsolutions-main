@@ -43,4 +43,5 @@ public class Worksheets implements Serializable {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "uuuu-MM-dd'T'HH:mm:ssXXX")
     private Date updateDate;
+    private String center;
 }

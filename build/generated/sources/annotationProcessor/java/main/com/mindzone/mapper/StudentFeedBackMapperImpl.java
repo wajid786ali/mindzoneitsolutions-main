@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-09-17T18:11:53-0500",
+    date = "2023-09-18T11:08:44-0500",
     comments = "version: 1.5.3.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 17.0.5 (JetBrains s.r.o.)"
 )
 @Component
@@ -31,6 +31,7 @@ public class StudentFeedBackMapperImpl implements StudentFeedBackMapper {
         studentFeedBack.teacherName( d.getTeacherName() );
         studentFeedBack.comments( d.getComments() );
         studentFeedBack.worksheetsType( d.getWorksheetsType() );
+        studentFeedBack.center( d.getCenter() );
 
         return studentFeedBack.build();
     }
@@ -51,6 +52,7 @@ public class StudentFeedBackMapperImpl implements StudentFeedBackMapper {
         studentFeedBackDto.teacherName( e.getTeacherName() );
         studentFeedBackDto.comments( e.getComments() );
         studentFeedBackDto.worksheetsType( e.getWorksheetsType() );
+        studentFeedBackDto.center( e.getCenter() );
 
         return studentFeedBackDto.build();
     }

@@ -36,5 +36,6 @@ public class StudentNotes implements Serializable {
     private Date completedDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date createdDate;
+    private String center;
 }
 
