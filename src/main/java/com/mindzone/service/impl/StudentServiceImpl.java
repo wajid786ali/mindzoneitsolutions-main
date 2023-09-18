@@ -371,6 +371,7 @@ public class StudentServiceImpl implements StudentService {
             studentNotes.setComments(sdto.getComments());
             studentNotes.setStudentId(sdto.getStudentId());
             studentNotes.setResolved("New");
+            studentNotes.setCenter(sdto.getCenter());
             studentNotes.setReminderDate(sdto.getReminderDate());
             long millis = System.currentTimeMillis();
             java.sql.Date date = new java.sql.Date(millis);

@@ -24,4 +24,5 @@ public class StudentNotesDto {
     private Date reminderDate;
     private Date completedDate;
     private Date createdDate;
+    private String center;
 }

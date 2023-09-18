@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-09-18T11:08:44-0500",
+    date = "2023-09-18T11:36:32-0500",
     comments = "version: 1.5.3.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 17.0.5 (JetBrains s.r.o.)"
 )
 @Component
@@ -29,6 +29,7 @@ public class StudentNotesMapperImpl implements StudentNotesMapper {
         studentNotes.reminderDate( d.getReminderDate() );
         studentNotes.completedDate( d.getCompletedDate() );
         studentNotes.createdDate( d.getCreatedDate() );
+        studentNotes.center( d.getCenter() );
 
         return studentNotes.build();
     }
@@ -49,6 +50,7 @@ public class StudentNotesMapperImpl implements StudentNotesMapper {
         studentNotesDto.reminderDate( e.getReminderDate() );
         studentNotesDto.completedDate( e.getCompletedDate() );
         studentNotesDto.createdDate( e.getCreatedDate() );
+        studentNotesDto.center( e.getCenter() );
 
         return studentNotesDto.build();
     }
