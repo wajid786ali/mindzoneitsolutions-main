@@ -157,9 +157,9 @@ public class StudentController {
         return generateNewWorksheets.generateWeeklyWorksheet(weekDate,subject);
     }
 */
-    @GetMapping(path ="/generateWeeklyWorksheets")
-    public @ResponseBody String generateWeeklyWorksheets(){
-        return generateNewWorksheets.generateWeeklyWorksheet();
+    @GetMapping(path ="/generateWeeklyWorksheets/{center}")
+    public @ResponseBody String generateWeeklyWorksheets(@PathVariable String center){
+        return generateNewWorksheets.generateWeeklyWorksheet(center);
     }
 
     @PutMapping

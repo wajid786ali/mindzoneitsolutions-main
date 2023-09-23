@@ -26,7 +26,7 @@ public class GenerateNewWorksheetsImpl implements  GenerateNewWorksheets {
     List<WorksheetsDto> worksheetsDtoList = new ArrayList<>();
 
 
-    public String generateWeeklyWorksheet() {
+    public String generateWeeklyWorksheet(String center) {
 
         try {
 
@@ -41,7 +41,7 @@ public class GenerateNewWorksheetsImpl implements  GenerateNewWorksheets {
             boolean generateWorksheet = true;
 
             fileNameMap = listFilesUtil.listFilesAndFilesSubDirectories(directoryWindows, fileNameMap);
-            worksheetsDtoList = service.getStudentWorksheetByStatus("New");
+            worksheetsDtoList = service.getStudentWorksheetByStatus("New",center);
             for (int i = 0; i < worksheetsDtoList.size(); i++) {
                 WorksheetsDto worksheetsDto = worksheetsDtoList.get(i);
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

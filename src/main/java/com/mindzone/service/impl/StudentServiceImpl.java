@@ -179,10 +179,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<WorksheetsDto> getStudentWorksheetByStatus(String status) {
-        List<Worksheets> studentWorksheets = worksheetsRepository.findByStatus(status);
+    public List<WorksheetsDto> getStudentWorksheetByStatus(String status,String center) {
+        List<Worksheets> studentWorksheets = worksheetsRepository.findByStatusAndCenter(status,center);
         return studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
-
     }
 
     @Override
@@ -350,6 +349,7 @@ public class StudentServiceImpl implements StudentService {
             worksheets.setSubject(sdto.getSubject());
             worksheets.setWeekDate(sdto.getWeekDate());
             worksheets.setWorksheet(sdto.getWorksheet());
+            worksheets.setCenter(sdto.getCenter());
             worksheets.setStatus("New");
             worksheets.setExtraWorksheet(sdto.getExtraWorksheet());
             long millis = System.currentTimeMillis();
