@@ -304,6 +304,7 @@ public class StudentServiceImpl implements StudentService {
                 worksheetsRepository.save(worksheets);
             } catch (Exception e) {
                 message=message+ e.getMessage();
+                e.printStackTrace();
             }
         }
         return message;
