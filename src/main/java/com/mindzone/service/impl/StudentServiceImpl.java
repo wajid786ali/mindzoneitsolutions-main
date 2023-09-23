@@ -297,6 +297,7 @@ public class StudentServiceImpl implements StudentService {
                 worksheets.setWorksheet(sdto.getWorksheet());
                 worksheets.setExtraWorksheet(sdto.getExtraWorksheet());
                 worksheets.setStatus("New");
+                worksheets.setCenter(sdto.getCenter());
                 long millis = System.currentTimeMillis();
                 java.sql.Date date = new java.sql.Date(millis);
                 worksheets.setInsertDate(date);
