@@ -180,7 +180,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<WorksheetsDto> getStudentWorksheetByStatus(String status,String center) {
-        List<Worksheets> studentWorksheets = worksheetsRepository.findByStatusAndCenter(status,center);
+        List<Worksheets> studentWorksheets = worksheetsRepository.findByStatusAndCenterOrderByStudentName(status,center);
         return studentWorksheets.stream().map(wsm -> worksheetsMapper.toDto(wsm)).collect(Collectors.toList());
     }
 

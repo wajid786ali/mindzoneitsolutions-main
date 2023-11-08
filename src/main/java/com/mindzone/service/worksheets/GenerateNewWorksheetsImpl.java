@@ -20,7 +20,7 @@ import java.util.Map;
 public class GenerateNewWorksheetsImpl implements  GenerateNewWorksheets {
     @Autowired
     private StudentService service;
-    static String filePath = null;
+    static String filePath = "C:\\sajid\\MindZone UI and API\\mzit-ui-main\\src\\assets\\worksheets";
     String message_return;
     static String date = "12-15-2018";
     List<WorksheetsDto> worksheetsDtoList = new ArrayList<>();
@@ -53,7 +53,7 @@ public class GenerateNewWorksheetsImpl implements  GenerateNewWorksheets {
 
 
                 //  worksheetsDtoList = service.findByInsertDate(sqlDate);
-                filePath="../"+subject;
+                filePath=filePath+"/"+subject;
                 String folderPath= createDirectory(filePath,worksheetsDto.getWeekDate().toString());
                 if (folderPath.equalsIgnoreCase("Error")){
                     return "Folder Creating Error";

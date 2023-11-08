@@ -20,7 +20,7 @@ public class DocumentController {
 
     @GetMapping(path = "/{name}")
     public void download(@PathVariable(name = "name") String name){
-
+      //  documentService.docToPdf(name);
         documentService.download(name);
     }
 }
