@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-11-21T11:42:53-0600",
-    comments = "version: 1.5.3.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 19.0.1 (Oracle Corporation)"
+    date = "2023-11-23T16:49:59-0600",
+    comments = "version: 1.5.3.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 17.0.5 (JetBrains s.r.o.)"
 )
 @Component
 public class WorksheetsMapperImpl implements WorksheetsMapper {
@@ -34,6 +34,7 @@ public class WorksheetsMapperImpl implements WorksheetsMapper {
         worksheets.extraWorksheetPathAnswer( d.getExtraWorksheetPathAnswer() );
         worksheets.month( d.getMonth() );
         worksheets.status( d.getStatus() );
+        worksheets.message( d.getMessage() );
         worksheets.weekDate( d.getWeekDate() );
         worksheets.center( d.getCenter() );
 
@@ -60,6 +61,7 @@ public class WorksheetsMapperImpl implements WorksheetsMapper {
         worksheetsDto.worksheetPathAnswer( e.getWorksheetPathAnswer() );
         worksheetsDto.extraWorksheetPathAnswer( e.getExtraWorksheetPathAnswer() );
         worksheetsDto.status( e.getStatus() );
+        worksheetsDto.message( e.getMessage() );
         worksheetsDto.month( e.getMonth() );
         worksheetsDto.weekDate( e.getWeekDate() );
         worksheetsDto.center( e.getCenter() );

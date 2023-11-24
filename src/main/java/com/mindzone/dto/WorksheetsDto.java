@@ -33,6 +33,7 @@ public class WorksheetsDto {
     String worksheetPathAnswer;
     String extraWorksheetPathAnswer;
     String status;
+    String message;
     String month;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
      Date weekDate;

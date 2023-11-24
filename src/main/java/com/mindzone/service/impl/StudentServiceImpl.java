@@ -288,20 +288,22 @@ public class StudentServiceImpl implements StudentService {
         for (int i = 0; i < swsList.size(); i++) {
             WorksheetsDto sdto=swsList.get(i);
             try {
-                Worksheets worksheets = new Worksheets();
-                worksheets.setStudentId(sdto.getStudentId());
-                worksheets.setStudentName(sdto.getStudentName());
-                worksheets.setSubject(sdto.getSubject());
-                worksheets.setGrade(sdto.getGrade());
-                worksheets.setWeekDate(sdto.getWeekDate());
-                worksheets.setWorksheet(sdto.getWorksheet());
-                worksheets.setExtraWorksheet(sdto.getExtraWorksheet());
-                worksheets.setStatus("New");
-                worksheets.setCenter(sdto.getCenter());
-                long millis = System.currentTimeMillis();
-                java.sql.Date date = new java.sql.Date(millis);
-                worksheets.setInsertDate(date);
-                worksheetsRepository.save(worksheets);
+                if (sdto.getWorksheet() != null){
+                    Worksheets worksheets = new Worksheets();
+                    worksheets.setStudentId(sdto.getStudentId());
+                    worksheets.setStudentName(sdto.getStudentName());
+                    worksheets.setSubject(sdto.getSubject());
+                    worksheets.setGrade(sdto.getGrade());
+                    worksheets.setWeekDate(sdto.getWeekDate());
+                    worksheets.setWorksheet(sdto.getWorksheet());
+                    worksheets.setExtraWorksheet(sdto.getExtraWorksheet());
+                    worksheets.setStatus("New");
+                    worksheets.setCenter(sdto.getCenter());
+                    long millis = System.currentTimeMillis();
+                    java.sql.Date date = new java.sql.Date(millis);
+                    worksheets.setInsertDate(date);
+                    worksheetsRepository.save(worksheets);
+                }
             } catch (Exception e) {
                 message=message+ e.getMessage();
                 e.printStackTrace();
@@ -321,7 +323,8 @@ public class StudentServiceImpl implements StudentService {
                 worksheets.setExtraWorksheetPath(worksheetsDto.getExtraWorksheetPath());
                 worksheets.setWorksheetPathAnswer(worksheetsDto.getWorksheetPathAnswer());
                 worksheets.setExtraWorksheetPathAnswer(worksheetsDto.getExtraWorksheetPathAnswer());
-                worksheets.setStatus("Print");
+                worksheets.setStatus(worksheetsDto.getStatus());
+                worksheets.setMessage(worksheetsDto.getMessage());
                 long millis = System.currentTimeMillis();
                 java.sql.Date date = new java.sql.Date(millis);
                 worksheets.setUpdateDate(date);

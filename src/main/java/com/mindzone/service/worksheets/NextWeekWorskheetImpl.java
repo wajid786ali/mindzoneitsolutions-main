@@ -49,15 +49,17 @@ public class NextWeekWorskheetImpl implements  NextWeekWorksheet {
     return studentwork;
     }
     @Override
-    public List<WorksheetsDto> homeworkGenerator(String newWeekDate,String subject,String center){
+    public List<WorksheetsDto> homeworkGenerator(String newWeekDate,String subject,String center,String studentName){
         List<WorksheetsDto> newWSList= new ArrayList<>();
         try {
             ListFilesUtil listFilesUtil = new ListFilesUtil();
+            CommonUtil util=new CommonUtil();
+            Properties prop=util.readProperties();
             boolean math = true;
             if (subject.equalsIgnoreCase("Math")) {
-                directoryWindows = "C://sajid//MindZoneLearning//study Material//Math_Final";
+                directoryWindows = prop.get("math.worksheets.folder").toString();
             } else if (subject.equalsIgnoreCase("English")){
-                directoryWindows = "C://sajid//MindZoneLearning//study Material//English";
+                directoryWindows = prop.get("english.worksheets.folder").toString();
             }
             Map<String, ArrayList<String>> studentOldWorksheet= studentHistory();
 
@@ -77,37 +79,52 @@ public class NextWeekWorskheetImpl implements  NextWeekWorksheet {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             java.util.Date date = sdf.parse(newWeekDate);
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-            for (int i = 0; i < studentList.size(); i++) {
-                WorksheetsDto wdto = new WorksheetsDto();
 
-                StudentResponseDto studentResponseDto = studentList.get(i);
-                    if (studentResponseDto.getStatus().equalsIgnoreCase("Active") &&
-                            studentResponseDto.getSubjects().contains(subject)) {
-                        String studentname = studentResponseDto.getStudentName();
-                        wdto.setStudentName(studentname);
-                        wdto.setGrade(studentResponseDto.getGrade());
-                        wdto.setWeekDate(sqlDate);
-                        wdto.setSubject(subject);
-                        wdto.setStatus("New");
-                        wdto.setCenter(center);
-                        WorksheetsDto filenameDto = studentWorksheet.get(studentname);
-                        if (filenameDto != null) {
-                            String filename = filenameDto.getWorksheet();
-                            if (filename != null) {
-                                newWorksheets(fileNameMap, filename, studentOldWorksheet.get(studentname), wdto);
-                            }
-                            String filenameExtra = filenameDto.getExtraWorksheet();
-                            if (filenameExtra != null) {
-                                newWorksheetsExtra(fileNameMap, filenameExtra, studentOldWorksheet.get(studentname), wdto);
-                            }
-                            }
-                        newWSList.add(wdto);
+            StudentResponseDto studentResponseDto =null;
+            if (studentName.equalsIgnoreCase("selectName") || studentName.equalsIgnoreCase("undefined") ){
+                for (int i = 0; i < studentList.size(); i++) {
+                    WorksheetsDto wdto = new WorksheetsDto();
+                     studentResponseDto = studentList.get(i);
+                    processStudentsWorksheets(subject, center, newWSList, studentOldWorksheet, fileNameMap, studentWorksheet, sqlDate, wdto, studentResponseDto);
+                }
+            } else {
+                for (int i = 0; i < studentList.size(); i++) {
+                    WorksheetsDto wdto = new WorksheetsDto();
+                    studentResponseDto = studentList.get(i);
+                    if (studentName.equalsIgnoreCase(studentResponseDto.getStudentName())) {
+                        processStudentsWorksheets(subject, center, newWSList, studentOldWorksheet, fileNameMap, studentWorksheet, sqlDate, wdto, studentResponseDto);
                     }
+                }
             }
         } catch (Exception e) {
             System.out.println("main1 *" + e.toString());
         }
         return newWSList;
+    }
+
+    private void processStudentsWorksheets(String subject, String center, List<WorksheetsDto> newWSList, Map<String, ArrayList<String>> studentOldWorksheet, Map<String, String> fileNameMap, Map<String, WorksheetsDto> studentWorksheet, java.sql.Date sqlDate, WorksheetsDto wdto, StudentResponseDto studentResponseDto) {
+        if (studentResponseDto.getStatus().equalsIgnoreCase("Active") &&
+                studentResponseDto.getSubjects().contains(subject)) {
+            String studentname = studentResponseDto.getStudentName();
+            wdto.setStudentName(studentname);
+            wdto.setGrade(studentResponseDto.getGrade());
+            wdto.setWeekDate(sqlDate);
+            wdto.setSubject(subject);
+            wdto.setStatus("New");
+            wdto.setCenter(center);
+            WorksheetsDto filenameDto = studentWorksheet.get(studentname);
+            if (filenameDto != null) {
+                String filename = filenameDto.getWorksheet();
+                if (filename != null) {
+                    newWorksheets(fileNameMap, filename, studentOldWorksheet.get(studentname), wdto);
+                }
+                String filenameExtra = filenameDto.getExtraWorksheet();
+                if (filenameExtra != null) {
+                    newWorksheetsExtra(fileNameMap, filenameExtra, studentOldWorksheet.get(studentname), wdto);
+                }
+            }
+            newWSList.add(wdto);
+        }
     }
 
     private void newWorksheetsExtra(Map<String, String> fileNameMap,
